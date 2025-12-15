@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 
 export const useLiquidations = () => {
-  // 1. Берем адрес из переменной окружения или локалхост
   const WS_URL = import.meta.env.VITE_WS_URL || "ws://localhost:8765";
 
   const [lastStats, setLastStats] = useState({ vol: 0, max: 0 });
@@ -75,8 +74,8 @@ export const useLiquidations = () => {
             setNewUsers(d.newUsers);
             setRevenue(d.revenue);
             setTotalDbRekt(d.totalDbRekt || 0);
-            setTopGainers(d.topGainers || []); // Защита от null
-            setTopLosers(d.topLosers || []); // Защита от null
+            setTopGainers(d.topGainers || []);
+            setTopLosers(d.topLosers || []);
           } else if (response.type === "global_period_update") {
             setPeriodRekt(response.value);
           }
@@ -90,23 +89,20 @@ export const useLiquidations = () => {
         setIsReady(false);
         console.log("⚠️ WS Closed. Reconnecting in 3s...");
 
-        // Теперь connect существует и мы можем его вызвать
         reconnectTimeoutRef.current = setTimeout(() => {
           connect();
         }, 3000);
       };
     };
 
-    // Запускаем подключение
     connect();
 
-    // Очистка при размонтировании
     return () => {
       if (wsRef.current) wsRef.current.close();
       if (reconnectTimeoutRef.current)
         clearTimeout(reconnectTimeoutRef.current);
     };
-  }, [WS_URL]); // Перезапустится, если изменится URL (локал/прод)
+  }, [WS_URL]);
 
   const sendRequest = useCallback((data) => {
     if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {

@@ -275,7 +275,7 @@ export const CoinLiquidationPage = () => {
         width: 100,
         align: "center",
         render: (isShort) => {
-          const color = isShort ? "#3fb950" : "#f85149"; // GitHub Dark dim colors
+          const color = isShort ? "#3fb950" : "#f85149";
           const bg = isShort
             ? "rgba(63, 185, 80, 0.15)"
             : "rgba(248, 81, 73, 0.15)";
@@ -438,7 +438,6 @@ export const CoinLiquidationPage = () => {
         <TimeSelector value={timeRange} onChange={setTimeRange} />
       </div>
 
-      {/* --- КАРТОЧКИ СТАТИСТИКИ --- */}
       <Row gutter={[24, 24]}>
         <Col xs={24} md={8}>
           <StatBox
@@ -451,7 +450,7 @@ export const CoinLiquidationPage = () => {
             icon={
               <FireOutlined style={{ color: "#ff4d4f", fontSize: "16px" }} />
             }
-            color="#ff4d4f" // Красный неон
+            color="#ff4d4f"
           />
         </Col>
         <Col xs={24} md={8}>
@@ -467,7 +466,7 @@ export const CoinLiquidationPage = () => {
                 style={{ color: "#faad14", fontSize: "16px" }}
               />
             }
-            color="#faad14" // Желтый неон
+            color="#faad14"
           />
         </Col>
         <Col xs={24} md={8}>
@@ -493,12 +492,11 @@ export const CoinLiquidationPage = () => {
                 }}
               ></span>
             }
-            color="#3fb950" // Зеленый неон
+            color="#3fb950"
           />
         </Col>
       </Row>
 
-      {/* --- ТАБЛИЦА (LIVE FEED) --- */}
       <div
         style={{
           marginTop: "70px",
@@ -547,19 +545,18 @@ export const CoinLiquidationPage = () => {
           </div>
         </div>
 
-        {/* ConfigProvider КРАСИТ ТАБЛИЦУ В ТЕМНЫЙ */}
         <ConfigProvider
           theme={{
             components: {
               Table: {
-                colorBgContainer: "transparent", // Прозрачный фон
-                colorText: "#e6edf3", // Белый текст
-                colorTextHeading: "#8b949e", // Серые заголовки
-                borderColor: "rgba(48, 54, 61, 0.2)", // Цвет разделителей (почти невидимые)
-                headerBg: "rgba(13, 17, 23, 0.3)", // Темный хедер
+                colorBgContainer: "transparent",
+                colorText: "#e6edf3",
+                colorTextHeading: "#8b949e",
+                borderColor: "rgba(48, 54, 61, 0.2)",
+                headerBg: "rgba(13, 17, 23, 0.3)",
                 headerSplitColor: "transparent",
-                rowHoverBg: "rgba(56, 139, 253, 0.03)", // Едва заметный эффект при наведении
-                cellPaddingBlock: 16, // Больше воздуха
+                rowHoverBg: "rgba(56, 139, 253, 0.03)",
+                cellPaddingBlock: 16,
               },
               Pagination: {
                 colorText: "#8b949e",
@@ -578,7 +575,6 @@ export const CoinLiquidationPage = () => {
         </ConfigProvider>
       </div>
 
-      {/* CSS анимация для пульсации */}
       <style>{`
         @keyframes pulse {
             0% { opacity: 1; transform: scale(1); }

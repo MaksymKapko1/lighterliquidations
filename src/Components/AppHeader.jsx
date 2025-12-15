@@ -5,7 +5,6 @@ import { FireOutlined, HomeOutlined } from "@ant-design/icons";
 
 const { Header } = Layout;
 
-// 👇 1. Определяем иконку прямо тут (или импортируем)
 const CandleIcon = () => (
   <svg
     width="28"
@@ -25,7 +24,6 @@ const CandleIcon = () => (
       rx="1"
       style={{ fill: "#4caf50", stroke: "#4caf50" }}
     />{" "}
-    {/* Зеленая свеча */}
     <path d="M17 3v2" style={{ stroke: "#4caf50" }} />
     <path d="M17 17v3" style={{ stroke: "#4caf50" }} />
     <rect
@@ -36,7 +34,6 @@ const CandleIcon = () => (
       rx="1"
       style={{ fill: "#f44336", stroke: "#f44336" }}
     />{" "}
-    {/* Красная свеча */}
     <path d="M7 10v4" style={{ stroke: "#f44336" }} />
     <path d="M7 20v2" style={{ stroke: "#f44336" }} />
   </svg>
@@ -71,7 +68,6 @@ export const AppHeader = () => {
             gap: "12px",
           }}
         >
-          {/* 👇 2. Вставляем нашу иконку вместо эмодзи */}
           <div
             style={{
               display: "flex",
@@ -88,7 +84,7 @@ export const AppHeader = () => {
               fontSize: "18px",
               fontWeight: "bold",
               fontFamily: "monospace",
-              letterSpacing: "1px", // Чуть разрядим шрифт для стиля
+              letterSpacing: "1px",
             }}
           >
             Lighter Liquidations

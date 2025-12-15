@@ -12,7 +12,6 @@ export const CoinCard = ({ title, iconUrl, data = [], linkTo }) => {
       hoverable
       onClick={() => navigate(linkTo)}
       bordered={false}
-      // --- ОБНОВЛЕНИЕ ДЛЯ ANTD 5.0 ---
       styles={{
         header: {
           borderBottom: "1px solid rgba(48, 54, 61, 0.5)",
@@ -60,7 +59,6 @@ export const CoinCard = ({ title, iconUrl, data = [], linkTo }) => {
               background: "rgba(255, 255, 255, 0.03)",
               border: "1px solid rgba(255, 255, 255, 0.05)",
               borderRadius: "8px",
-              // Сетка: 1 часть (сумма), 1 часть (цена), авто-ширина (кнопка)
               display: "grid",
               gridTemplateColumns: "1.5fr 1fr auto",
               alignItems: "center",
@@ -76,7 +74,6 @@ export const CoinCard = ({ title, iconUrl, data = [], linkTo }) => {
               e.currentTarget.style.background = "rgba(255, 255, 255, 0.03)";
             }}
           >
-            {/* 1. СУММА (СЛЕВА) */}
             <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
               <FireOutlined style={{ color: "#ff4d4f", fontSize: "14px" }} />
               <span
@@ -94,7 +91,7 @@ export const CoinCard = ({ title, iconUrl, data = [], linkTo }) => {
                   maximumFractionDigits: 0,
                 })}
               </span>
-              {/* TYPE OF LIQ */}
+
               <span
                 style={{
                   marginLeft: "8px",
@@ -102,9 +99,7 @@ export const CoinCard = ({ title, iconUrl, data = [], linkTo }) => {
                   fontWeight: "bold",
                   padding: "2px 6px",
                   borderRadius: "4px",
-                  // Логика цветов:
-                  // Short ликвидация = Покупка (Buy) = Зеленый
-                  // Long ликвидация = Продажа (Sell) = Красный
+
                   color: liq.liq_type ? "#52c41a" : "#ff4d4f",
                   background: liq.liq_type
                     ? "rgba(82, 196, 26, 0.15)"
@@ -120,7 +115,6 @@ export const CoinCard = ({ title, iconUrl, data = [], linkTo }) => {
               </span>
             </div>
 
-            {/* 2. ЦЕНА (ПО ЦЕНТРУ / БЛИЖЕ К КРАЮ) */}
             <div style={{ textAlign: "right", paddingRight: "15px" }}>
               <div
                 style={{
@@ -142,7 +136,6 @@ export const CoinCard = ({ title, iconUrl, data = [], linkTo }) => {
               </div>
             </div>
 
-            {/* 3. КНОПКА (СПРАВА) */}
             <a
               href={`https://app.lighter.xyz/explorer/logs/${liq.tx_hash}`}
               target="_blank"

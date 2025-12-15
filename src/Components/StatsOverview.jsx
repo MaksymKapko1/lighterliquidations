@@ -20,19 +20,18 @@ export const StatsOverview = ({
   const itemStyle = {
     display: "flex",
     flexDirection: "column",
-    alignItems: "center", // Центрируем по горизонтали
-    justifyContent: "center", // Центрируем по вертикали (если высота задана)
-    position: "relative", // Чтобы позиционировать палку абсолютно
-    height: "100%", // Тянем на всю высоту
+    alignItems: "center",
+    justifyContent: "center",
+    position: "relative",
+    height: "100%",
     width: "100%",
   };
 
-  // Стиль для палки-разделителя
   const dividerStyle = {
     position: "absolute",
     right: 0,
-    top: "10%", // Чуть отступаем сверху
-    height: "80%", // Высота палки 80% от блока
+    top: "10%",
+    height: "80%",
     width: "1px",
     background: "rgba(255,255,255,0.1)",
   };
@@ -44,7 +43,7 @@ export const StatsOverview = ({
         backdropFilter: "blur(10px)",
         border: "1px solid rgba(48, 54, 61, 0.5)",
         borderRadius: "16px",
-        padding: "24px 0", // Убрали боковые паддинги, оставили верх/низ
+        padding: "24px 0",
         marginBottom: "30px",
         marginTop: "20px",
         boxShadow: "0 4px 20px rgba(0,0,0,0.2)",
@@ -89,7 +88,6 @@ export const StatsOverview = ({
                 {totalUsers?.toLocaleString() || "0"}
               </div>
 
-              {/* Бейдж новых юзеров */}
               {(newUsers > 0 || true) && (
                 <div
                   style={{
@@ -116,11 +114,10 @@ export const StatsOverview = ({
               }}
             ></div>
           </div>
-          {/* Палка-разделитель (вставляем отдельно) */}
+
           <div className="hidden md:block" style={dividerStyle}></div>
         </Col>
 
-        {/* --- БЛОК 2: OPEN INTEREST --- */}
         <Col xs={24} md={6} style={{ position: "relative" }}>
           <div style={itemStyle}>
             <div
@@ -160,11 +157,9 @@ export const StatsOverview = ({
               Market Healthy
             </div>
           </div>
-          {/* Палка-разделитель */}
           <div className="hidden md:block" style={dividerStyle}></div>
         </Col>
 
-        {/* --- БЛОК 3: ACTIVITY --- */}
         <Col xs={24} md={6} style={{ position: "relative" }}>
           <div style={itemStyle}>
             <div

@@ -9,7 +9,7 @@ import { RektStats } from "../Components/RektStats";
 export const HomePage = () => {
   const {
     liquidations,
-    connectionStatus, // Можно использовать для индикатора статуса
+    connectionStatus,
     totalUsers,
     totalNetworkOi,
     totalVolume,
