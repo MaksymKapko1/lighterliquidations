@@ -441,7 +441,7 @@ export const CoinLiquidationPage = () => {
       <Row gutter={[24, 24]}>
         <Col xs={24} md={8}>
           <StatBox
-            title={`Total Rekt (${timeRange}h)`}
+            title={`Total Liquidations (${timeRange}h)`}
             value={`$${
               lastStats?.vol?.toLocaleString(undefined, {
                 maximumFractionDigits: 0,
@@ -455,7 +455,7 @@ export const CoinLiquidationPage = () => {
         </Col>
         <Col xs={24} md={8}>
           <StatBox
-            title={`Max Single Rekt`}
+            title={`Max Single Liquidation`}
             value={`$${
               lastStats?.max?.toLocaleString(undefined, {
                 maximumFractionDigits: 0,
