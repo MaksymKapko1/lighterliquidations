@@ -35,8 +35,8 @@ const useLiquidations = () => {
   const wsRef = useRef(null);
 
   useEffect(() => {
-    const WS_URL =
-      import.meta.env.VITE_WS_URL || "wss://lighterliquidations.store/ws";
+    // Подставьте ваш реальный адрес WS
+    const ws = new WebSocket("wss://lighterliquidations.store/ws");
     wsRef.current = ws;
 
     ws.onopen = () => {
