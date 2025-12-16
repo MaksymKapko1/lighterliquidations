@@ -2,6 +2,9 @@ import { useState, useEffect, useCallback, useRef } from "react";
 
 export const useLiquidations = () => {
   const WS_URL = import.meta.env.VITE_WS_URL || "ws://localhost:8765";
+  // ДОБАВЬ ВОТ ЭТУ СТРОКУ:
+  console.log("🌍 ENV CHECK: ", import.meta.env.VITE_WS_URL);
+  console.log("🔗 Connecting to:", WS_URL);
 
   const [lastStats, setLastStats] = useState({ vol: 0, max: 0 });
   const [liquidations, setLiquidations] = useState({
