@@ -45,6 +45,8 @@ export const useLiquidations = () => {
         setConnectionStatus("Connected 🟢");
         setIsReady(true);
         console.log("WS CONNECTED to", WS_URL);
+
+        ws.send(JSON.stringify({ type: "init" }));
       };
 
       ws.onmessage = (event) => {
