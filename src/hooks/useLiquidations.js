@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 
 export const useLiquidations = () => {
   const WS_URL = import.meta.env.VITE_WS_URL || "ws://localhost:8765";
-  // ДОБАВЬ ВОТ ЭТУ СТРОКУ:
+
   console.log("🌍 ENV CHECK: ", import.meta.env.VITE_WS_URL);
   console.log("🔗 Connecting to:", WS_URL);
 
@@ -45,8 +45,6 @@ export const useLiquidations = () => {
         setConnectionStatus("Connected 🟢");
         setIsReady(true);
         console.log("WS CONNECTED to", WS_URL);
-
-        ws.send(JSON.stringify({ type: "init" }));
       };
 
       ws.onmessage = (event) => {
