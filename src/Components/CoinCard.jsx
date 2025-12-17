@@ -69,28 +69,35 @@ export const CoinCard = ({ title, iconUrl, data = [], linkTo, max24h }) => {
             </div>
           )}
 
-          {/* Flex контейнер для правильного отступа между Title и Текстом */}
+          {/* Исправленный контейнер заголовка */}
           <div
             style={{
               display: "flex",
-              alignItems: "baseline",
+              alignItems: "center", // Выравнивание строго по центру
               flexWrap: "wrap",
               gap: "10px",
             }}
           >
-            <span style={{ letterSpacing: "1px", color: "#fff" }}>{title}</span>
+            <span
+              style={{ letterSpacing: "1px", color: "#fff", fontSize: "16px" }}
+            >
+              {title}
+            </span>
             <span
               style={{
                 letterSpacing: "0.5px",
-                fontSize: "15px",
+                fontSize: "14px", // Чуть меньше, чтобы влезало лучше
                 color: "#8b949e",
+                whiteSpace: "nowrap", // Запрет разрыва фразы
+                display: "flex",
+                alignItems: "center",
               }}
             >
               Top Liquidation for 24H:
               <span
                 style={{
                   display: "inline-block",
-                  marginLeft: "6px",
+                  marginLeft: "8px",
                   color: "#fff",
                   fontWeight: "800",
                   fontSize: "14px",
