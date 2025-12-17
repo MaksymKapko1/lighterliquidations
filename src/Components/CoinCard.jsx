@@ -49,7 +49,36 @@ export const CoinCard = ({ title, iconUrl, data = [], linkTo, max24h }) => {
             style={{ width: "28px", height: "28px", borderRadius: "50%" }}
           />
           <span style={{ letterSpacing: "1px" }}>
-            {title} Max liquidation for 24H: {formatCompactLiqPerCoin(max24h)}
+            {title}
+            <span
+              style={{
+                marginLeft: "6px",
+                letterSpacing: "0.5px",
+                fontSize: "15px",
+                color: "#8b949e",
+              }}
+            >
+              Top Liquidation for 24H: {/* --- СТИЛИЗОВАННАЯ ЦИФРА MAX --- */}
+              <span
+                style={{
+                  display: "inline-block",
+                  marginLeft: "6px",
+                  color: "#fff",
+                  fontWeight: "800",
+                  fontSize: "14px",
+                  fontFamily: "'Roboto Mono', monospace",
+                  background: "rgba(255, 255, 255, 0.1)", // Легкая подложка
+                  border: "1px solid rgba(255, 255, 255, 0.2)", // Тонкая рамка
+                  padding: "2px 8px", // Отступы внутри
+                  borderRadius: "6px", // Скругление
+                  boxShadow: "0 0 10px rgba(255, 255, 255, 0.1)", // Легкое свечение
+                  textShadow: "0 0 5px rgba(255, 255, 255, 0.3)", // Свечение текста
+                  letterSpacing: "0.5px",
+                }}
+              >
+                {formatCompactLiqPerCoin(max24h)}
+              </span>
+            </span>
           </span>
         </div>
       }
