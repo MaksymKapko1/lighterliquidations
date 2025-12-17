@@ -62,6 +62,7 @@ export const HomePage = () => {
                 title="Ethereum"
                 iconUrl="https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png"
                 data={liquidations.ETH}
+                max24h={maxLiqs.ETH || 0}
                 linkTo="/liquidations/ETH"
               />
             </Col>
@@ -71,6 +72,7 @@ export const HomePage = () => {
                 title="HYPE"
                 iconUrl="https://s2.coinmarketcap.com/static/img/coins/64x64/32196.png"
                 data={liquidations.HYPE}
+                max24h={maxLiqs.HYPE || 0}
                 linkTo="/liquidations/HYPE"
               />
             </Col>
@@ -80,6 +82,7 @@ export const HomePage = () => {
                 title="Sui"
                 iconUrl="https://s2.coinmarketcap.com/static/img/coins/64x64/20947.png"
                 data={liquidations.SUI}
+                max24h={maxLiqs.SUI || 0}
                 linkTo="/liquidations/SUI"
               />
             </Col>
@@ -89,6 +92,7 @@ export const HomePage = () => {
                 title="Solana"
                 iconUrl="https://s2.coinmarketcap.com/static/img/coins/64x64/5426.png" //sol
                 data={liquidations.SOL}
+                max24h={maxLiqs.SOL || 0}
                 linkTo="/liquidations/SOL"
               />
             </Col>
@@ -98,6 +102,7 @@ export const HomePage = () => {
                 title="BNB"
                 iconUrl="https://s2.coinmarketcap.com/static/img/coins/64x64/1839.png" //bnb
                 data={liquidations.BNB}
+                max24h={maxLiqs.BNB || 0}
                 linkTo="/liquidations/BNB"
               />
             </Col>
@@ -107,6 +112,7 @@ export const HomePage = () => {
                 title="AAPL"
                 iconUrl="https://s2.coinmarketcap.com/static/img/rwa/64x64/68789a83cbbf471de3366fd7.png"
                 data={liquidations.AAPL}
+                max24h={maxLiqs.AAPL || 0}
                 linkTo="/liquidations/AAPL"
               />
             </Col>
@@ -116,6 +122,7 @@ export const HomePage = () => {
                 title="GOOGL"
                 iconUrl="https://app.lighter.xyz/assets/googl-BTnagMQH.png"
                 data={liquidations.GOOGL}
+                max24h={maxLiqs.GOOGL || 0}
                 linkTo="/liquidations/GOOGL"
               />
             </Col>
@@ -125,6 +132,7 @@ export const HomePage = () => {
                 title="META"
                 iconUrl="https://s2.coinmarketcap.com/static/img/rwa/64x64/68789be7cbbf471de336705d.png"
                 data={liquidations.META}
+                max24h={maxLiqs.META || 0}
                 linkTo="/liquidations/META"
               />
             </Col>
