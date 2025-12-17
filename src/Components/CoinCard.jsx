@@ -8,7 +8,7 @@ export const CoinCard = ({ title, iconUrl, data = [], linkTo, max24h }) => {
   const safeData = Array.isArray(data) ? data : [];
 
   const formatCompactLiqPerCoin = (num) => {
-    return new Intl.NumberFormat("en-Us", {
+    return new Intl.NumberFormat("en-US", {
       style: "currency",
       currency: "USD",
       notation: "compact",
@@ -43,22 +43,50 @@ export const CoinCard = ({ title, iconUrl, data = [], linkTo, max24h }) => {
       }}
       title={
         <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-          <img
-            src={iconUrl}
-            alt={title}
-            style={{ width: "28px", height: "28px", borderRadius: "50%" }}
-          />
-          <span style={{ letterSpacing: "1px" }}>
-            {title}
+          {/* Иконка */}
+          {iconUrl ? (
+            <img
+              src={iconUrl}
+              alt={title}
+              style={{ width: "28px", height: "28px", borderRadius: "50%" }}
+            />
+          ) : (
+            <div
+              style={{
+                width: "28px",
+                height: "28px",
+                borderRadius: "50%",
+                background: "#f7931a",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "#fff",
+                fontWeight: "bold",
+                fontSize: "14px",
+              }}
+            >
+              {title[0]}
+            </div>
+          )}
+
+          {/* Flex контейнер для правильного отступа между Title и Текстом */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "baseline",
+              flexWrap: "wrap",
+              gap: "10px",
+            }}
+          >
+            <span style={{ letterSpacing: "1px", color: "#fff" }}>{title}</span>
             <span
               style={{
-                marginLeft: "6px",
                 letterSpacing: "0.5px",
                 fontSize: "15px",
                 color: "#8b949e",
               }}
             >
-              Top Liquidation for 24H: {/* --- СТИЛИЗОВАННАЯ ЦИФРА MAX --- */}
+              Top Liquidation for 24H:
               <span
                 style={{
                   display: "inline-block",
@@ -67,19 +95,19 @@ export const CoinCard = ({ title, iconUrl, data = [], linkTo, max24h }) => {
                   fontWeight: "800",
                   fontSize: "14px",
                   fontFamily: "'Roboto Mono', monospace",
-                  background: "rgba(255, 255, 255, 0.1)", // Легкая подложка
-                  border: "1px solid rgba(255, 255, 255, 0.2)", // Тонкая рамка
-                  padding: "2px 8px", // Отступы внутри
-                  borderRadius: "6px", // Скругление
-                  boxShadow: "0 0 10px rgba(255, 255, 255, 0.1)", // Легкое свечение
-                  textShadow: "0 0 5px rgba(255, 255, 255, 0.3)", // Свечение текста
+                  background: "rgba(255, 255, 255, 0.1)",
+                  border: "1px solid rgba(255, 255, 255, 0.2)",
+                  padding: "2px 8px",
+                  borderRadius: "6px",
+                  boxShadow: "0 0 10px rgba(255, 255, 255, 0.1)",
+                  textShadow: "0 0 5px rgba(255, 255, 255, 0.3)",
                   letterSpacing: "0.5px",
                 }}
               >
                 {formatCompactLiqPerCoin(max24h)}
               </span>
             </span>
-          </span>
+          </div>
         </div>
       }
     >
