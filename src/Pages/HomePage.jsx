@@ -13,6 +13,7 @@ export const HomePage = () => {
     requestGlobalPeriod(period);
   }, [period]);
   const {
+    maxLiqs,
     liquidations,
     connectionStatus,
     totalUsers,
@@ -51,6 +52,7 @@ export const HomePage = () => {
                 title="Bitcoin"
                 iconUrl="https://s2.coinmarketcap.com/static/img/coins/64x64/1.png"
                 data={liquidations.BTC}
+                max24h={maxLiqs.BTC || 0}
                 linkTo="/liquidations/BTC"
               />
             </Col>

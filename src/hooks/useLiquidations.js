@@ -16,6 +16,7 @@ export const useLiquidations = (selectedPeriod) => {
     META: [],
   });
 
+  const [maxLiqs, setMaxLiqs] = useState({});
   const [connectionStatus, setConnectionStatus] = useState("Disconnected");
   const [isReady, setIsReady] = useState(false);
   const [openInterest, setOpenInterest] = useState({});
@@ -31,12 +32,10 @@ export const useLiquidations = (selectedPeriod) => {
   const [topGainers, setTopGainers] = useState([]);
   const [topLosers, setTopLosers] = useState([]);
 
-  // Используем реф, чтобы внутри WebSocket всегда видеть актуальный период
   const activePeriodRef = useRef(selectedPeriod);
   const wsRef = useRef(null);
   const reconnectTimeoutRef = useRef(null);
 
-  // Обновляем реф при изменении пропса
   useEffect(() => {
     activePeriodRef.current = selectedPeriod;
   }, [selectedPeriod]);
@@ -51,7 +50,6 @@ export const useLiquidations = (selectedPeriod) => {
         setIsReady(true);
         console.log("WS CONNECTED to", WS_URL);
 
-        // При подключении сразу просим данные за выбранный период
         if (ws.readyState === WebSocket.OPEN) {
           ws.send(
             JSON.stringify({
@@ -107,6 +105,8 @@ export const useLiquidations = (selectedPeriod) => {
             }
 
             setPeriodRekt(response.value);
+          } else if (response.type === "max_liq_per_coin") {
+            setMaxLiqs(response.data);
           }
         } catch (err) {
           console.error("Ошибка обработки:", err);
@@ -151,6 +151,7 @@ export const useLiquidations = (selectedPeriod) => {
   );
 
   return {
+    maxLiqs,
     topGainers,
     topLosers,
     periodRekt,

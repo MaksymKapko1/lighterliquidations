@@ -3,9 +3,18 @@ import { Card } from "antd";
 import { useNavigate } from "react-router-dom";
 import { LinkOutlined, FireOutlined } from "@ant-design/icons";
 
-export const CoinCard = ({ title, iconUrl, data = [], linkTo }) => {
+export const CoinCard = ({ title, iconUrl, data = [], linkTo, max24h }) => {
   const navigate = useNavigate();
   const safeData = Array.isArray(data) ? data : [];
+
+  const formatCompactLiqPerCoin = (num) => {
+    return new Intl.NumberFormat("en-Us", {
+      style: "currency",
+      currency: "USD",
+      notation: "compact",
+      maximumFractionDigits: 1,
+    }).format(num);
+  };
 
   return (
     <Card
@@ -39,7 +48,9 @@ export const CoinCard = ({ title, iconUrl, data = [], linkTo }) => {
             alt={title}
             style={{ width: "28px", height: "28px", borderRadius: "50%" }}
           />
-          <span style={{ letterSpacing: "1px" }}>{title}</span>
+          <span style={{ letterSpacing: "1px" }}>
+            {title} Max liquidation for 24H: {formatCompactLiqPerCoin(max24h)}
+          </span>
         </div>
       }
     >
