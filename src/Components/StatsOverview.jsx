@@ -101,7 +101,7 @@ export const StatsOverview = ({
                     height: "fit-content",
                   }}
                 >
-                  +{newUsers} 24h
+                  +xxx{newUsers} 24h
                 </div>
               )}
             </div>
