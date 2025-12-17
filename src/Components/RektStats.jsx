@@ -1,30 +1,35 @@
 import React, { useEffect, useState } from "react";
-import { Card, Row, Col, Statistic, Radio } from "antd";
+import { Card, Row, Col, Statistic } from "antd";
 import {
   FireOutlined,
   FallOutlined,
   TrophyOutlined,
   ArrowUpOutlined,
   ArrowDownOutlined,
+  ClockCircleOutlined, // Не забудь добавить этот импорт
 } from "@ant-design/icons";
 
 export const RektStats = ({
+  period,
+  onPeriodChange,
   value,
   onRequestUpdate,
   topGainers = [],
   topLosers = [],
 }) => {
-  const [period, setPeriod] = useState(24);
+  // const [period, setPeriod] = useState(24);
 
-  // Вызываем обновление при загрузке и при смене периода
-  useEffect(() => {
-    onRequestUpdate(period);
-  }, [period]);
-  // Убрали onRequestUpdate из зависимостей, чтобы избежать двойных рендеров
+  const options = [
+    { label: "1H", value: 1 },
+    { label: "4H", value: 4 },
+    { label: "12H", value: 12 },
+    { label: "24H", value: 24 },
+    { label: "7D", value: 168 },
+  ];
 
-  const handlePeriodChange = (e) => {
-    setPeriod(e.target.value);
-  };
+  // useEffect(() => {
+  //   onRequestUpdate(period);
+  // }, [period]);
 
   const commonCardStyle = {
     background: "linear-gradient(90deg, #141414 0%, #1f1f1f 100%)",
@@ -51,7 +56,6 @@ export const RektStats = ({
       align="stretch"
       gutter={[24, 24]}
     >
-      {/* ЛЕВАЯ КАРТОЧКА: ЛИКВИДАЦИИ */}
       <Col xs={24} md={12} style={{ display: "flex", flexDirection: "column" }}>
         <Card style={commonCardStyle} bodyStyle={centeredBodyStyle}>
           <div
@@ -98,31 +102,74 @@ export const RektStats = ({
                   fontFamily: "'Roboto Mono', monospace",
                 }}
               >
-                {Number(val).toLocaleString()}
+                {Number(val).toLocaleString("ru-RU", {
+                  maximumFractionDigits: 0,
+                })}
               </span>
             )}
           />
+
           <div style={{ marginTop: "20px" }}>
-            <Radio.Group
-              value={period}
-              onChange={handlePeriodChange}
-              buttonStyle="solid"
+            <div
+              style={{
+                background: "rgba(255, 255, 255, 0.03)",
+                padding: "4px",
+                borderRadius: "12px",
+                display: "flex",
+                flexWrap: "wrap",
+                justifyContent: "center",
+                gap: "4px",
+                border: "1px solid rgba(255, 255, 255, 0.08)",
+                backdropFilter: "blur(5px)",
+              }}
             >
-              <Radio.Button value={4}>4H</Radio.Button>
-              <Radio.Button value={12}>12H</Radio.Button>
-              <Radio.Button value={24}>24H</Radio.Button>
-              <Radio.Button value={168}>7D</Radio.Button>
-              <Radio.Button value={0}>ALL</Radio.Button>
-            </Radio.Group>
+              {options.map((opt) => {
+                const isActive = period === opt.value;
+                return (
+                  <div
+                    key={opt.value}
+                    onClick={() => onPeriodChange(opt.value)}
+                    style={{
+                      cursor: "pointer",
+                      padding: "6px 16px",
+                      borderRadius: "8px",
+
+                      color: isActive ? "#fff" : "#6b7280",
+                      fontWeight: isActive ? "600" : "500",
+
+                      background: isActive
+                        ? "rgba(56, 139, 253, 0.15)"
+                        : "transparent",
+                      border: isActive
+                        ? "1px solid rgba(56, 139, 253, 0.3)"
+                        : "1px solid transparent",
+                      transition: "all 0.3s ease",
+                      fontSize: "13px",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "6px",
+                      boxShadow: isActive
+                        ? "0 0 10px rgba(56, 139, 253, 0.1)"
+                        : "none",
+                    }}
+                  >
+                    {isActive && (
+                      <ClockCircleOutlined
+                        style={{ fontSize: "12px", color: "#58a6ff" }}
+                      />
+                    )}
+                    {opt.label}
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </Card>
       </Col>
 
-      {/* ПРАВАЯ КАРТОЧКА: ТОПЫ */}
       <Col xs={24} md={12}>
         <Card style={commonCardStyle} bodyStyle={{ padding: "24px" }}>
           <Row gutter={[24, 24]}>
-            {/* LOSERS */}
             <Col span={12}>
               <div
                 style={{
@@ -178,7 +225,6 @@ export const RektStats = ({
               </div>
             </Col>
 
-            {/* GAINERS */}
             <Col span={12}>
               <div
                 style={{

@@ -15,7 +15,6 @@ import {
   LinkOutlined,
 } from "@ant-design/icons";
 
-// --- ВСТРОЕННЫЙ ХУК ---
 const useLiquidations = () => {
   const [lastStats, setLastStats] = useState({ vol: 0, max: 0 });
   const [liquidations, setLiquidations] = useState({
@@ -35,7 +34,6 @@ const useLiquidations = () => {
   const wsRef = useRef(null);
 
   useEffect(() => {
-    // Подставьте ваш реальный адрес WS
     const ws = new WebSocket("wss://lighterliquidations.store/ws");
     wsRef.current = ws;
 
@@ -106,7 +104,6 @@ const useLiquidations = () => {
   };
 };
 
-// --- КОМПОНЕНТ: КРАСИВЫЙ СЕЛЕКТОР ВРЕМЕНИ ---
 const TimeSelector = ({ value, onChange }) => {
   const options = [
     { label: "1H", value: 1 },
@@ -125,7 +122,14 @@ const TimeSelector = ({ value, onChange }) => {
         display: "flex",
         border: "1px solid rgba(255, 255, 255, 0.08)",
         backdropFilter: "blur(5px)",
+
+        overflowX: "auto",
+        maxWidth: "100%",
+        scrollbarWidth: "none",
+        msOverflowStyle: "none",
+        gap: "4px",
       }}
+      className="hide-scrollbar"
     >
       {options.map((opt) => {
         const isActive = value === opt.value;
@@ -149,6 +153,8 @@ const TimeSelector = ({ value, onChange }) => {
               alignItems: "center",
               gap: "6px",
               boxShadow: isActive ? "0 0 10px rgba(56, 139, 253, 0.1)" : "none",
+              whiteSpace: "nowrap",
+              flexShrink: 0,
             }}
           >
             {isActive && (
@@ -160,6 +166,11 @@ const TimeSelector = ({ value, onChange }) => {
           </div>
         );
       })}
+      <style>{`
+        .hide-scrollbar::-webkit-scrollbar {
+          display: none;
+        }
+      `}</style>
     </div>
   );
 };
@@ -222,7 +233,12 @@ export const CoinLiquidationPage = () => {
   const [timeRange, setTimeRange] = useState(24);
   const currentOI = openInterest && openInterest[coin];
 
-  const tableData = liquidations[coin] || [];
+  const tableData = useMemo(() => {
+    const data = liquidations[coin] || [];
+    return [...data].sort(
+      (a, b) => new Date(b.timestamp) - new Date(a.timestamp)
+    );
+  }, [liquidations, coin]);
 
   useEffect(() => {
     if (!isReady) return;
@@ -404,6 +420,8 @@ export const CoinLiquidationPage = () => {
           marginBottom: "40px",
           borderBottom: "1px solid rgba(48, 54, 61, 0.5)",
           paddingBottom: "24px",
+          flexWrap: "wrap",
+          gap: "16px",
         }}
       >
         <div style={{ display: "flex", flexDirection: "column" }}>

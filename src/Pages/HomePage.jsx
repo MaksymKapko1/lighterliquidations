@@ -5,8 +5,13 @@ import { useLiquidations } from "../hooks/useLiquidations";
 import { AppHeader } from "../Components/AppHeader";
 import { StatsOverview } from "../Components/StatsOverview";
 import { RektStats } from "../Components/RektStats";
+import { useState, useEffect } from "react";
 
 export const HomePage = () => {
+  const [period, setPeriod] = useState(24);
+  useEffect(() => {
+    requestGlobalPeriod(period);
+  }, [period]);
   const {
     liquidations,
     connectionStatus,
@@ -19,7 +24,7 @@ export const HomePage = () => {
     requestGlobalPeriod,
     topGainers,
     topLosers,
-  } = useLiquidations();
+  } = useLiquidations(period);
 
   return (
     <div style={{ minHeight: "100vh", paddingBottom: "40px" }}>
@@ -35,7 +40,8 @@ export const HomePage = () => {
           />
           <RektStats
             value={periodRekt}
-            onRequestUpdate={requestGlobalPeriod}
+            period={period}
+            onPeriodChange={setPeriod}
             topGainers={topGainers}
             topLosers={topLosers}
           />

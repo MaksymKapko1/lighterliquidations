@@ -1,10 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 
-export const useLiquidations = () => {
+export const useLiquidations = (selectedPeriod) => {
   const WS_URL = import.meta.env.VITE_WS_URL || "ws://localhost:8765";
-
-  console.log("🌍 ENV CHECK: ", import.meta.env.VITE_WS_URL);
-  console.log("🔗 Connecting to:", WS_URL);
 
   const [lastStats, setLastStats] = useState({ vol: 0, max: 0 });
   const [liquidations, setLiquidations] = useState({
@@ -27,24 +24,42 @@ export const useLiquidations = () => {
   const [totalVolume, setTotalVolume] = useState(0);
   const [newUsers, setNewUsers] = useState(0);
   const [revenue, setRevenue] = useState(0);
-  const [periodRekt, setPeriodRekt] = useState(0);
-  const [totalDbRekt, setTotalDbRekt] = useState(0);
 
+  const [periodRekt, setPeriodRekt] = useState(0);
+
+  const [totalDbRekt, setTotalDbRekt] = useState(0);
   const [topGainers, setTopGainers] = useState([]);
   const [topLosers, setTopLosers] = useState([]);
 
+  // Используем реф, чтобы внутри WebSocket всегда видеть актуальный период
+  const activePeriodRef = useRef(selectedPeriod);
   const wsRef = useRef(null);
-
   const reconnectTimeoutRef = useRef(null);
+
+  // Обновляем реф при изменении пропса
+  useEffect(() => {
+    activePeriodRef.current = selectedPeriod;
+  }, [selectedPeriod]);
 
   useEffect(() => {
     const connect = () => {
       const ws = new WebSocket(WS_URL);
       wsRef.current = ws;
+
       ws.onopen = () => {
         setConnectionStatus("Connected 🟢");
         setIsReady(true);
         console.log("WS CONNECTED to", WS_URL);
+
+        // При подключении сразу просим данные за выбранный период
+        if (ws.readyState === WebSocket.OPEN) {
+          ws.send(
+            JSON.stringify({
+              type: "get_global_rekt_by_hours",
+              hours: activePeriodRef.current || 24,
+            })
+          );
+        }
       };
 
       ws.onmessage = (event) => {
@@ -55,7 +70,6 @@ export const useLiquidations = () => {
             const incomingData = Array.isArray(response.data)
               ? response.data
               : [response.data];
-
             setLiquidations((prevState) => {
               const nextState = { ...prevState };
               incomingData.forEach((item) => {
@@ -80,6 +94,18 @@ export const useLiquidations = () => {
             setTopGainers(d.topGainers || []);
             setTopLosers(d.topLosers || []);
           } else if (response.type === "global_period_update") {
+            const serverHours =
+              response.hours !== undefined ? Number(response.hours) : 24;
+
+            const myHours =
+              activePeriodRef.current !== undefined
+                ? Number(activePeriodRef.current)
+                : 24;
+
+            if (serverHours !== myHours) {
+              return;
+            }
+
             setPeriodRekt(response.value);
           }
         } catch (err) {
@@ -90,8 +116,6 @@ export const useLiquidations = () => {
       ws.onclose = () => {
         setConnectionStatus("Disconnected 🔴");
         setIsReady(false);
-        console.log("⚠️ WS Closed. Reconnecting in 3s...");
-
         reconnectTimeoutRef.current = setTimeout(() => {
           connect();
         }, 3000);
@@ -110,13 +134,14 @@ export const useLiquidations = () => {
   const sendRequest = useCallback((data) => {
     if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
       wsRef.current.send(JSON.stringify(data));
-    } else {
-      console.log("Socket not ready, skip sending");
     }
   }, []);
 
   const requestGlobalPeriod = useCallback(
     (hours) => {
+      // Обновляем реф мгновенно перед запросом, на всякий случай
+      activePeriodRef.current = hours;
+
       sendRequest({
         type: "get_global_rekt_by_hours",
         hours: hours,
