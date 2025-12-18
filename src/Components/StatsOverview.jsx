@@ -90,19 +90,17 @@ export const StatsOverview = ({
 
               {(newUsers > 0 || true) && (
                 <div
-                  style={{
-                    background: "rgba(56, 139, 253, 0.15)",
-                    color: "#58a6ff",
-                    border: "1px solid rgba(56, 139, 253, 0.3)",
-                    borderRadius: "20px",
-                    padding: "2px 8px",
-                    fontSize: "10px",
-                    fontWeight: "600",
-                    height: "fit-content",
-                  }}
-                >
-                  +xxx{newUsers} 24h
-                </div>
+                // style={{
+                //   background: "rgba(56, 139, 253, 0.15)",
+                //   color: "#58a6ff",
+                //   border: "1px solid rgba(56, 139, 253, 0.3)",
+                //   borderRadius: "20px",
+                //   padding: "2px 8px",
+                //   fontSize: "10px",
+                //   fontWeight: "600",
+                //   height: "fit-content",
+                // }}
+                ></div>
               )}
             </div>
 
