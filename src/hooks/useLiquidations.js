@@ -65,7 +65,7 @@ function liquidationReducer(state, action) {
     case "global_stats":
       return {
         ...state,
-        globalStats: { ...state.global_stats, ...action.data },
+        globalStats: { ...state.globalStats, ...action.data },
       };
     case "global_period_update":
       return { ...state, periodRekt: action.value };
