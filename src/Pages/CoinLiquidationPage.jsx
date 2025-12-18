@@ -266,6 +266,7 @@ export const CoinLiquidationPage = () => {
             columns={columns}
             rowKey="tx_hash"
             pagination={{ pageSize: 10, position: ["bottomCenter"] }}
+            scroll={{ x: 800, y: 400 }}
           />
         </ConfigProvider>
       </div>
