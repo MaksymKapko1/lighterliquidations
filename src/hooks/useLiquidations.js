@@ -1,10 +1,17 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import {
+  useState,
+  useEffect,
+  useCallback,
+  useRef,
+  useReducer,
+  act,
+} from "react";
+import { useSocketConnection } from "./useSocketConnection";
 
-export const useLiquidations = (selectedPeriod) => {
-  const WS_URL = import.meta.env.VITE_WS_URL || "ws://localhost:8765";
-
-  const [lastStats, setLastStats] = useState({ vol: 0, max: 0 });
-  const [liquidations, setLiquidations] = useState({
+const initialState = {
+  connectionStatus: "Disconnected",
+  isReady: false,
+  liquidations: {
     BTC: [],
     ETH: [],
     HYPE: [],
@@ -14,159 +21,128 @@ export const useLiquidations = (selectedPeriod) => {
     AAPL: [],
     GOOGL: [],
     META: [],
-  });
+  },
+  lastStats: { vol: 0, max: 0 },
+  maxLiqs: {},
+  openInterest: {},
+  globalStats: {
+    totalUsers: 0,
+    totalNetworkOi: 0,
+    totalVolume: 0,
+    newUsers: 0,
+    revenue: 0,
+    totalDbRekt: 0,
+    topGainers: [],
+    topLosers: [],
+  },
+  periodRekt: 0,
+};
 
-  const [maxLiqs, setMaxLiqs] = useState({});
-  const [connectionStatus, setConnectionStatus] = useState("Disconnected");
-  const [isReady, setIsReady] = useState(false);
-  const [openInterest, setOpenInterest] = useState({});
-  const [totalUsers, setTotalUsers] = useState(0);
-  const [totalNetworkOi, setTotalNetworkOi] = useState(0);
-  const [totalVolume, setTotalVolume] = useState(0);
-  const [newUsers, setNewUsers] = useState(0);
-  const [revenue, setRevenue] = useState(0);
+function liquidationReducer(state, action) {
+  switch (action.type) {
+    case "CONNECTING":
+      return { ...state, connectionStatus: "Connecting..." };
+    case "CONNECTED":
+      return { ...state, connectionStatus: "Connected", isReady: true };
+    case "DISCONNECTED":
+      return { ...state, connectionStatus: "Disconnected", isReady: false };
+    case "liquidations": {
+      const incomingData = Array.isArray(action.data)
+        ? action.data
+        : [action.data];
+      const nextLiqs = { ...state.liquidations };
+      incomingData.forEach((item) => {
+        const coinKey = item.coin || "Unknown";
+        const currentList = nextLiqs[coinKey] || [];
+        nextLiqs[coinKey] = [item, ...currentList].slice(0, 50);
+      });
+      return { ...state, liquidations: nextLiqs };
+    }
+    case "stats_update":
+      return { ...state, lastStats: action.data };
+    case "oi_update_batch":
+      return { ...state, openInterest: action.data };
+    case "global_stats":
+      return {
+        ...state,
+        globalStats: { ...state.global_stats, ...action.data },
+      };
+    case "global_period_update":
+      return { ...state, periodRekt: action.value };
+    case "max_liq_per_coin":
+      return { ...state, maxLiqs: action.data };
+    default:
+      return state;
+  }
+}
 
-  const [periodRekt, setPeriodRekt] = useState(0);
+export const useLiquidations = (selectedPeriod) => {
+  const WS_URL = import.meta.env.VITE_WS_URL || "ws://localhost:8765";
 
-  const [totalDbRekt, setTotalDbRekt] = useState(0);
-  const [topGainers, setTopGainers] = useState([]);
-  const [topLosers, setTopLosers] = useState([]);
-
+  const [state, dispatch] = useReducer(liquidationReducer, initialState);
   const activePeriodRef = useRef(selectedPeriod);
-  const wsRef = useRef(null);
-  const reconnectTimeoutRef = useRef(null);
 
   useEffect(() => {
     activePeriodRef.current = selectedPeriod;
   }, [selectedPeriod]);
 
-  useEffect(() => {
-    const connect = () => {
-      const ws = new WebSocket(WS_URL);
-      wsRef.current = ws;
+  const handleOpen = useCallback((ws) => {
+    dispatch({ type: "CONNECTED" });
+    ws.send(
+      JSON.stringify({
+        type: "get_global_rekt_by_hours",
+        hours: activePeriodRef.current || 24,
+      })
+    );
+  }, []);
 
-      ws.onopen = () => {
-        setConnectionStatus("Connected 🟢");
-        setIsReady(true);
-        console.log("WS CONNECTED to", WS_URL);
+  const handleMessage = useCallback((event) => {
+    try {
+      const response = JSON.parse(event.data);
 
-        if (ws.readyState === WebSocket.OPEN) {
-          ws.send(
-            JSON.stringify({
-              type: "get_global_rekt_by_hours",
-              hours: activePeriodRef.current || 24,
-            })
-          );
-        }
-      };
+      if (response.type === "global_period_update") {
+        const serverHours =
+          response.hours !== undefined ? Number(response.hours) : 24;
+        const myHours =
+          activePeriodRef.current !== undefined
+            ? Number(activePeriodRef.current)
+            : 24;
+        if (serverHours !== myHours) return;
+      }
 
-      ws.onmessage = (event) => {
-        try {
-          const response = JSON.parse(event.data);
-
-          if (response.type === "liquidations") {
-            const incomingData = Array.isArray(response.data)
-              ? response.data
-              : [response.data];
-            setLiquidations((prevState) => {
-              const nextState = { ...prevState };
-              incomingData.forEach((item) => {
-                const coinKey = item.coin || "Unknown";
-                if (!nextState[coinKey]) nextState[coinKey] = [];
-                nextState[coinKey] = [item, ...nextState[coinKey]].slice(0, 50);
-              });
-              return nextState;
-            });
-          } else if (response.type === "stats_update") {
-            setLastStats(response.data);
-          } else if (response.type === "oi_update_batch") {
-            setOpenInterest(response.data);
-          } else if (response.type === "global_stats") {
-            const d = response.data;
-            setTotalUsers(d.totalUsers);
-            setTotalNetworkOi(d.totalNetworkOi);
-            setTotalVolume(d.totalVolume);
-            setNewUsers(d.newUsers);
-            setRevenue(d.revenue);
-            setTotalDbRekt(d.totalDbRekt || 0);
-            setTopGainers(d.topGainers || []);
-            setTopLosers(d.topLosers || []);
-          } else if (response.type === "global_period_update") {
-            const serverHours =
-              response.hours !== undefined ? Number(response.hours) : 24;
-
-            const myHours =
-              activePeriodRef.current !== undefined
-                ? Number(activePeriodRef.current)
-                : 24;
-
-            if (serverHours !== myHours) {
-              return;
-            }
-
-            setPeriodRekt(response.value);
-          } else if (response.type === "max_liq_per_coin") {
-            setMaxLiqs(response.data);
-          }
-        } catch (err) {
-          console.error("Ошибка обработки:", err);
-        }
-      };
-
-      ws.onclose = () => {
-        setConnectionStatus("Disconnected 🔴");
-        setIsReady(false);
-        reconnectTimeoutRef.current = setTimeout(() => {
-          connect();
-        }, 3000);
-      };
-    };
-
-    connect();
-
-    return () => {
-      if (wsRef.current) wsRef.current.close();
-      if (reconnectTimeoutRef.current)
-        clearTimeout(reconnectTimeoutRef.current);
-    };
-  }, [WS_URL]);
-
-  const sendRequest = useCallback((data) => {
-    if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
-      wsRef.current.send(JSON.stringify(data));
+      dispatch({
+        type: response.type,
+        data: response.data,
+        value: response.value,
+      });
+    } catch (err) {
+      console.error(err);
     }
   }, []);
 
+  const { send, status } = useSocketConnection(
+    WS_URL,
+    handleMessage,
+    handleOpen
+  );
+
+  useEffect(() => {
+    if (status.includes("Disconnected")) dispatch({ type: "DISCONNECTED" });
+  }, [status]);
+
   const requestGlobalPeriod = useCallback(
     (hours) => {
-      // Обновляем реф мгновенно перед запросом, на всякий случай
       activePeriodRef.current = hours;
-
-      sendRequest({
-        type: "get_global_rekt_by_hours",
-        hours: hours,
-      });
+      send({ type: "get_global_rekt_by_hours", hours });
     },
-    [sendRequest]
+    [send]
   );
 
   return {
-    maxLiqs,
-    topGainers,
-    topLosers,
-    periodRekt,
+    ...state,
+    ...state.globalStats,
+    connectionStatus: status,
     requestGlobalPeriod,
-    liquidations,
-    connectionStatus,
-    lastStats,
-    sendRequest,
-    isReady,
-    openInterest,
-    totalUsers,
-    totalNetworkOi,
-    totalVolume,
-    newUsers,
-    revenue,
-    totalDbRekt,
+    sendRequest: send,
   };
 };
