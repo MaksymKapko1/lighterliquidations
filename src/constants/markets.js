@@ -36,6 +36,30 @@ export const MARKET_CONFIG = [
     title: "HYPE",
     icon: "https://s2.coinmarketcap.com/static/img/coins/64x64/32196.png",
   },
+  {
+    id: "XRP",
+    sector: "Crypto",
+    title: "XRP",
+    icon: "https://s2.coinmarketcap.com/static/img/coins/64x64/52.png",
+  },
+  {
+    id: "MON",
+    sector: "Crypto",
+    title: "MON",
+    icon: "https://s2.coinmarketcap.com/static/img/coins/64x64/30495.png",
+  },
+  {
+    id: "ZEC",
+    sector: "Crypto",
+    title: "ZEC",
+    icon: "https://app.lighter.xyz/assets/zcash-D3SbcD2X.png",
+  },
+  {
+    id: "FARTCOIN",
+    sector: "Crypto",
+    title: "FARTCOIN",
+    icon: "https://app.lighter.xyz/assets/fartcoin-CAgd0qdd.png",
+  },
 
   // --- EQUITIES ---
   {
@@ -104,5 +128,13 @@ export const MARKET_CONFIG = [
     sector: "FX",
     title: "USD/KRW",
     icon: "https://hatscripts.github.io/circle-flags/flags/kr.svg",
+  },
+
+  // --- PRE-LAUNCH ---
+  {
+    id: "MEGA",
+    sector: "Pre-launch",
+    title: "MEGA",
+    icon: "https://app.lighter.xyz/assets/mega-BO-Wwaza.png",
   },
 ];
