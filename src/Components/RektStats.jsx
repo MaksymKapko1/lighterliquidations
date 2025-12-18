@@ -6,7 +6,7 @@ import {
   TrophyOutlined,
   ArrowUpOutlined,
   ArrowDownOutlined,
-  ClockCircleOutlined, // Не забудь добавить этот импорт
+  ClockCircleOutlined,
 } from "@ant-design/icons";
 
 export const RektStats = ({
@@ -17,8 +17,6 @@ export const RektStats = ({
   topGainers = [],
   topLosers = [],
 }) => {
-  // const [period, setPeriod] = useState(24);
-
   const options = [
     { label: "1H", value: 1 },
     { label: "4H", value: 4 },
@@ -26,10 +24,6 @@ export const RektStats = ({
     { label: "24H", value: 24 },
     { label: "7D", value: 168 },
   ];
-
-  // useEffect(() => {
-  //   onRequestUpdate(period);
-  // }, [period]);
 
   const commonCardStyle = {
     background: "linear-gradient(90deg, #141414 0%, #1f1f1f 100%)",

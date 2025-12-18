@@ -1,0 +1,92 @@
+/* Переменные для легкой настройки */
+:root {
+  --glass-bg: rgba(13, 17, 23, 0.6); /* Темный полупрозрачный фон */
+  --glass-border-color: rgba(56, 139, 253, 0.4); /* Цвет синей границы */
+  --glow-color: #58a6ff; /* Цвет свечения */
+  --text-inactive: #8b949e; /* Серый текст */
+  --text-active: #ffffff; /* Белый активный текст */
+}
+
+/* 1. Обертка - создает эффект переливающейся границы */
+.glass-nav-wrapper {
+  position: relative;
+  margin: 30px 0; /* Отступы сверху/снизу */
+  border-radius: 16px; /* Закругление краев */
+  padding: 1px; /* Толщина границы */
+
+  /* Анимация перелива (Градиент) */
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.05),
+    var(--glass-border-color),
+    rgba(255, 255, 255, 0.05)
+  );
+  background-size: 200% 100%;
+  animation: borderShimmer 6s linear infinite; /* Скорость перелива */
+}
+
+/* 2. Внутренний контейнер - само стекло */
+.glass-nav-container {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px); /* Размытие фона под меню */
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 16px; /* Должно совпадать с оберткой */
+  padding: 8px 8px;
+  display: flex;
+  overflow-x: auto; /* Скролл на мобильных */
+  scrollbar-width: none; /* Скрыть скроллбар Firefox */
+}
+
+/* Скрыть скроллбар Chrome/Safari */
+.glass-nav-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* 3. Список кнопок */
+.glass-nav-list {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  gap: 8px; /* Расстояние между кнопками */
+  width: 100%;
+}
+
+/* 4. Одна кнопка */
+.glass-nav-item {
+  position: relative;
+  cursor: pointer;
+  padding: 10px 24px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-inactive);
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  user-select: none;
+}
+
+/* Ховер эффект (наведение) */
+.glass-nav-item:hover {
+  color: #c9d1d9;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+/* 5. АКТИВНАЯ КНОПКА */
+.glass-nav-item.active {
+  color: var(--text-active);
+  font-weight: 700;
+  background: rgba(56, 139, 253, 0.15); /* Синяя подсветка фона */
+  text-shadow: 0 0 10px rgba(88, 166, 255, 0.5); /* Свечение текста */
+  box-shadow: inset 0 0 0 1px rgba(56, 139, 253, 0.3); /* Тонкая рамка внутри */
+}
+
+/* Анимация границы */
+@keyframes borderShimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}

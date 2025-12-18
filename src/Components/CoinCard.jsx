@@ -3,7 +3,14 @@ import { Card } from "antd";
 import { useNavigate } from "react-router-dom";
 import { LinkOutlined, FireOutlined } from "@ant-design/icons";
 
-export const CoinCard = ({ title, iconUrl, data = [], linkTo, max24h }) => {
+export const CoinCard = ({
+  title,
+  symbol,
+  iconUrl,
+  data = [],
+  linkTo,
+  max24h,
+}) => {
   const navigate = useNavigate();
   const safeData = Array.isArray(data) ? data : [];
 
@@ -43,7 +50,6 @@ export const CoinCard = ({ title, iconUrl, data = [], linkTo, max24h }) => {
       }}
       title={
         <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-          {/* Иконка */}
           {iconUrl ? (
             <img
               src={iconUrl}
