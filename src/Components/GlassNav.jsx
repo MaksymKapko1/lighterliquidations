@@ -2,7 +2,7 @@ import React from "react";
 import "./GlassNavigation.css";
 
 export const GlassNav = ({ active, onChange }) => {
-  const tabs = ["All", "Crypto", "Equities", "FX", "Commodities"];
+  const tabs = ["All", "Crypto", "Equities", "FX"];
 
   return (
     <div className="glass-nav-wrapper">
