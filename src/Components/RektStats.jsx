@@ -96,8 +96,9 @@ export const RektStats = ({
                   fontFamily: "'Roboto Mono', monospace",
                 }}
               >
-                {Number(val).toLocaleString("ru-RU", {
-                  maximumFractionDigits: 0,
+                {Number(val).toLocaleString("en-US", {
+                  notation: "compact",
+                  maximumFractionDigits: 2,
                 })}
               </span>
             )}
