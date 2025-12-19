@@ -1,7 +1,7 @@
 import React from "react";
 import { CoinSearch } from "./ClientSearch";
 
-export const GlassNav = ({ active, onChange }) => {
+export const GlassNav = ({ active, onChange, markets }) => {
   const sectors = ["All", "Crypto", "Equities", "FX", "Pre-launch"];
 
   return (
@@ -26,7 +26,7 @@ export const GlassNav = ({ active, onChange }) => {
       </div>
 
       <div style={styles.searchWrapper}>
-        <CoinSearch />
+        <CoinSearch market={markets} />
       </div>
 
       <style>{`

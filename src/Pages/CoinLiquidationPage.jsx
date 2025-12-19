@@ -63,31 +63,59 @@ const StatBox = ({ title, value, icon, color = "#fff", isLoading }) => (
 );
 
 export const CoinLiquidationPage = () => {
-  const { coin } = useParams();
+  const { coin: coindId } = useParams();
   const navigate = useNavigate();
   const [timeRange, setTimeRange] = useState(24);
+  const [coinSymbol, setCoinSymbol] = useState("");
 
   const { liquidations, lastStats, openInterest, sendRequest, isReady } =
     useLiquidations(timeRange);
 
   useEffect(() => {
-    if (isReady && coin) {
+    // 1. Создаем асинхронную функцию внутри
+    const translateIdToSymbol = async () => {
+      try {
+        const response = await fetch("https://explorer.elliot.ai/api/markets");
+        const apiData = await response.json();
+
+        // 2. Ищем маркет по индексу.
+        // ВАЖНО: используем coindId (как у тебя в useParams)
+        const market = apiData.find(
+          (m) => String(m.market_index) === String(coindId)
+        );
+
+        if (market) {
+          setCoinSymbol(market.symbol);
+        }
+      } catch (e) {
+        console.error("Error translating ID", e);
+      }
+    };
+
+    // 3. Вызываем её
+    if (coindId) {
+      translateIdToSymbol();
+    }
+  }, [coindId]);
+
+  useEffect(() => {
+    if (isReady && coinSymbol) {
       sendRequest({
         type: "get_stats",
-        coin: coin,
+        coin: coinSymbol,
         hours: timeRange,
       });
     }
-  }, [coin, timeRange, isReady, sendRequest]);
+  }, [coinSymbol, timeRange, isReady, sendRequest]);
 
-  const currentOI = openInterest?.[coin];
+  const currentOI = openInterest?.[coinSymbol];
 
   const tableData = useMemo(() => {
-    const data = liquidations[coin] || [];
+    const data = liquidations[coinSymbol] || [];
     return [...data].sort(
       (a, b) => new Date(b.timestamp) - new Date(a.timestamp)
     );
-  }, [liquidations, coin]);
+  }, [liquidations, coinSymbol]);
 
   const columns = useMemo(
     () => [
@@ -161,7 +189,7 @@ export const CoinLiquidationPage = () => {
         align: "right",
         render: (size) => (
           <span style={{ color: "#8b949e", fontSize: "12px", opacity: 0.7 }}>
-            {Number(size).toFixed(4)} {coin}
+            {Number(size).toFixed(4)} {coinSymbol}
           </span>
         ),
       },
@@ -177,7 +205,7 @@ export const CoinLiquidationPage = () => {
         ),
       },
     ],
-    [coin]
+    [coinSymbol]
   );
 
   return (
@@ -194,7 +222,7 @@ export const CoinLiquidationPage = () => {
       <div style={styles.header}>
         <div style={{ display: "flex", flexDirection: "column" }}>
           <h1 style={styles.title}>
-            {coin} <span style={styles.gradientText}>Liquidations</span>
+            {coinSymbol} <span style={styles.gradientText}>Liquidations</span>
           </h1>
           <span style={styles.subtitle}>Real-time liquidation monitoring</span>
         </div>
@@ -234,7 +262,7 @@ export const CoinLiquidationPage = () => {
         </Col>
         <Col xs={24} md={8}>
           <StatBox
-            title={`${coin} Open Interest`}
+            title={`${coinSymbol} Open Interest`}
             value={
               currentOI
                 ? `$${currentOI.toLocaleString(undefined, {

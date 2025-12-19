@@ -2,7 +2,7 @@ import React from "react";
 import { Select } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import { MARKET_CONFIG } from "../constants/markets";
+import { MARKET_METADATA } from "../constants/marketMetadata";
 
 export const CoinSearch = () => {
   const navigate = useNavigate();
@@ -44,22 +44,18 @@ export const CoinSearch = () => {
         // Меняем иконку стрелки на синюю
         suffixIcon={<span style={{ color: "#58a6ff" }}>▼</span>}
       >
-        {MARKET_CONFIG.map((coin) => (
-          <Select.Option
-            key={coin.id}
-            value={coin.id}
-            label={coin.symbol || coin.id}
-          >
+        {Object.entries(MARKET_METADATA).map(([id, data]) => (
+          <Select.Option key={id} value={id} label={data.title || id}>
             <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-              {coin.icon && (
+              {data.icon && (
                 <img
-                  src={coin.icon}
+                  src={data.icon}
                   style={{ width: 16, height: 16, borderRadius: "50%" }}
                   alt=""
                 />
               )}
               <span style={{ color: "#e6edf3", fontWeight: 600 }}>
-                {coin.symbol || coin.id}
+                {data.symbol || id}
               </span>
               <span
                 style={{
@@ -68,7 +64,7 @@ export const CoinSearch = () => {
                   marginLeft: "auto",
                 }}
               >
-                {coin.name}
+                {data.name}
               </span>
             </div>
           </Select.Option>

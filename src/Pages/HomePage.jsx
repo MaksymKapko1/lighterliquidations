@@ -6,11 +6,14 @@ import { AppHeader } from "../Components/AppHeader";
 import { StatsOverview } from "../Components/StatsOverview";
 import { RektStats } from "../Components/RektStats";
 import { GlassNav } from "../Components/GlassNav";
-import { MARKET_CONFIG } from "../constants/markets";
+// import { MARKET_CONFIG } from "../constants/markets";
+import { MARKET_METADATA } from "../constants/marketMetadata";
 
 export const HomePage = () => {
   const [period, setPeriod] = useState(24);
   const [activeSector, setActiveSector] = useState("All");
+
+  const [dynamicMarkets, setDynamicMarkets] = useState([]);
 
   const {
     maxLiqs,
@@ -30,13 +33,44 @@ export const HomePage = () => {
     requestGlobalPeriod(period);
   }, [period]);
 
+  useEffect(() => {
+    const fetchMarkets = async () => {
+      try {
+        const response = await fetch("https://explorer.elliot.ai/api/markets");
+        const apiData = await response.json();
+
+        const formatted = apiData.map((item) => {
+          const meta = MARKET_METADATA[item.symbol] || {};
+
+          return {
+            id: item.market_index,
+            symbol: item.symbol,
+            sector: meta.sector || "Crypto",
+            title: meta.title || item.symbol,
+            icon: meta.icon || "https://...",
+          };
+        });
+        setDynamicMarkets(formatted);
+      } catch (e) {
+        console.error(e);
+      }
+    };
+    fetchMarkets();
+  }, []);
+
   // 2. ФИЛЬТРАЦИЯ
   const visibleCards = useMemo(() => {
-    if (activeSector === "All") {
-      return MARKET_CONFIG;
-    }
-    return MARKET_CONFIG.filter((card) => card.sector === activeSector);
-  }, [activeSector]);
+    if (dynamicMarkets.length === 0) return [];
+    let filtered =
+      activeSector === "All"
+        ? [...dynamicMarkets]
+        : dynamicMarkets.filter((card) => card.sector === activeSector);
+    return filtered.sort((a, b) => {
+      const valueA = maxLiqs[a.symbol] || 0;
+      const valueB = maxLiqs[b.symbol] || 0;
+      return valueB - valueA;
+    });
+  }, [activeSector, dynamicMarkets, maxLiqs]);
 
   return (
     <div style={{ minHeight: "100vh", paddingBottom: "40px" }}>
@@ -60,7 +94,11 @@ export const HomePage = () => {
           />
 
           {/* НАВИГАЦИЯ */}
-          <GlassNav active={activeSector} onChange={setActiveSector} />
+          <GlassNav
+            active={activeSector}
+            onChange={setActiveSector}
+            markets={dynamicMarkets}
+          />
 
           {/* 3. ОТРИСОВКА (ТОЛЬКО ЦИКЛ, НИКАКОГО ХАРДКОДА) */}
           <Row gutter={[16, 16]}>
@@ -68,10 +106,10 @@ export const HomePage = () => {
               <Col xs={24} md={8} key={card.id}>
                 <CoinCard
                   title={card.title}
-                  symbol={card.id}
+                  symbol={card.symbol}
                   iconUrl={card.icon}
-                  data={liquidations[card.id]}
-                  max24h={maxLiqs[card.id] || 0}
+                  data={liquidations[card.symbol]}
+                  max24h={maxLiqs[card.symbol] || 0}
                   linkTo={`/liquidations/${card.id}`}
                 />
               </Col>
