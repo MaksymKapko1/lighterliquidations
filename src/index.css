@@ -1,0 +1,23 @@
+/* Темный Skeleton — фон */
+.ant-skeleton .ant-skeleton-content .ant-skeleton-title,
+.ant-skeleton .ant-skeleton-content .ant-skeleton-paragraph > li,
+.ant-skeleton .ant-skeleton-avatar {
+  background-color: #1f1f1f !important;
+}
+
+/* Темный shimmer (::after — КЛЮЧЕВО) */
+.ant-skeleton.ant-skeleton-active
+  .ant-skeleton-content
+  .ant-skeleton-title::after,
+.ant-skeleton.ant-skeleton-active
+  .ant-skeleton-content
+  .ant-skeleton-paragraph
+  > li::after,
+.ant-skeleton.ant-skeleton-active .ant-skeleton-avatar::after {
+  background: linear-gradient(
+    90deg,
+    #1f1f1f 25%,
+    #2a2a2a 37%,
+    #1f1f1f 63%
+  ) !important;
+}

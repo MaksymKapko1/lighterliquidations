@@ -1,18 +1,34 @@
-import React, { useState, useEffect, useMemo, useReducer } from "react";
-import { Col, Row } from "antd";
+import React, { useState, useEffect, useMemo } from "react";
+import { Col, Row, Card, Skeleton } from "antd"; // ✅ ДОБАВИЛ: Card, Skeleton
 import { CoinCard } from "../Components/CoinCard";
 import { useLiquidations } from "../hooks/useLiquidations";
 import { AppHeader } from "../Components/AppHeader";
 import { StatsOverview } from "../Components/StatsOverview";
 import { RektStats } from "../Components/RektStats";
 import { GlassNav } from "../Components/GlassNav";
-// import { MARKET_CONFIG } from "../constants/markets";
 import { MARKET_METADATA } from "../constants/marketMetadata";
+
+// ✅ ДОБАВИЛ: простая сетка скелетонов под твой layout
+const SkeletonGrid = ({ count = 9 }) => (
+  <Row gutter={[16, 16]}>
+    {Array.from({ length: count }).map((_, i) => (
+      <Col xs={24} md={8} key={i}>
+        <Card style={{ background: "#0f0f0f", borderColor: "#1f1f1f" }}>
+          <Skeleton
+            active
+            avatar
+            paragraph={{ rows: 2 }}
+            style={{ filter: "brightness(0.7)" }}
+          />
+        </Card>
+      </Col>
+    ))}
+  </Row>
+);
 
 export const HomePage = () => {
   const [period, setPeriod] = useState(24);
   const [activeSector, setActiveSector] = useState("All");
-
   const [dynamicMarkets, setDynamicMarkets] = useState([]);
 
   const {
@@ -50,6 +66,7 @@ export const HomePage = () => {
             icon: meta.icon || "https://...",
           };
         });
+
         setDynamicMarkets(formatted);
       } catch (e) {
         console.error(e);
@@ -58,19 +75,24 @@ export const HomePage = () => {
     fetchMarkets();
   }, []);
 
-  // 2. ФИЛЬТРАЦИЯ
+  // ✅ ДОБАВИЛ: флаги загрузки именно для сортировки
+  const marketsReady = dynamicMarkets.length > 0;
+  const maxReady = maxLiqs && Object.keys(maxLiqs).length > 0;
+
+  // ✅ ИЗМЕНИЛ: сортируем только когда maxReady (иначе это бессмысленно)
   const visibleCards = useMemo(() => {
-    if (dynamicMarkets.length === 0) return [];
+    if (!marketsReady || !maxReady) return []; // ✅ ИЗМЕНИЛ
     let filtered =
       activeSector === "All"
         ? [...dynamicMarkets]
         : dynamicMarkets.filter((card) => card.sector === activeSector);
+
     return filtered.sort((a, b) => {
       const valueA = maxLiqs[a.symbol] || 0;
       const valueB = maxLiqs[b.symbol] || 0;
       return valueB - valueA;
     });
-  }, [activeSector, dynamicMarkets, maxLiqs]);
+  }, [activeSector, dynamicMarkets, maxLiqs, marketsReady, maxReady]); // ✅ ИЗМЕНИЛ
 
   return (
     <div style={{ minHeight: "100vh", paddingBottom: "40px" }}>
@@ -84,52 +106,191 @@ export const HomePage = () => {
             newUsers={newUsers}
             revenue={revenue}
           />
+
           <RektStats
             stats={periodRekt}
-            // value={periodRekt}
             period={period}
             onPeriodChange={setPeriod}
             topGainers={topGainers}
             topLosers={topLosers}
           />
 
-          {/* НАВИГАЦИЯ */}
           <GlassNav
             active={activeSector}
             onChange={setActiveSector}
-            markets={dynamicMarkets}
+            markets={dynamicMarkets} // ✅ ИЗМЕНИЛ: убрал dynamicMarketsф (опечатка)
           />
 
-          {/* 3. ОТРИСОВКА (ТОЛЬКО ЦИКЛ, НИКАКОГО ХАРДКОДА) */}
-          <Row gutter={[16, 16]}>
-            {visibleCards.map((card) => (
-              <Col xs={24} md={8} key={card.id}>
-                <CoinCard
-                  title={card.title}
-                  symbol={card.symbol}
-                  iconUrl={card.icon}
-                  data={liquidations[card.symbol]}
-                  max24h={maxLiqs[card.symbol] || 0}
-                  linkTo={`/liquidations/${card.id}`}
-                />
-              </Col>
-            ))}
+          {/* ✅ ИЗМЕНИЛ: пока maxLiqs не готовы — показываем Skeleton вместо карточек */}
+          {!marketsReady || !maxReady ? (
+            <SkeletonGrid count={9} />
+          ) : (
+            <Row gutter={[16, 16]}>
+              {visibleCards.map((card) => (
+                <Col xs={24} md={8} key={card.id}>
+                  <CoinCard
+                    title={card.title}
+                    symbol={card.symbol}
+                    iconUrl={card.icon}
+                    data={liquidations[card.symbol]}
+                    max24h={maxLiqs[card.symbol] || 0}
+                    linkTo={`/liquidations/${card.id}`}
+                  />
+                </Col>
+              ))}
 
-            {visibleCards.length === 0 && (
-              <div
-                style={{
-                  width: "100%",
-                  textAlign: "center",
-                  padding: "40px",
-                  color: "#666",
-                }}
-              >
-                No assets found in {activeSector}.
-              </div>
-            )}
-          </Row>
+              {visibleCards.length === 0 && (
+                <div
+                  style={{
+                    width: "100%",
+                    textAlign: "center",
+                    padding: "40px",
+                    color: "#666",
+                  }}
+                >
+                  No assets found in {activeSector}.
+                </div>
+              )}
+            </Row>
+          )}
         </Col>
       </Row>
     </div>
   );
 };
+
+// import React, { useState, useEffect, useMemo, useReducer } from "react";
+// import { Col, Row } from "antd";
+// import { CoinCard } from "../Components/CoinCard";
+// import { useLiquidations } from "../hooks/useLiquidations";
+// import { AppHeader } from "../Components/AppHeader";
+// import { StatsOverview } from "../Components/StatsOverview";
+// import { RektStats } from "../Components/RektStats";
+// import { GlassNav } from "../Components/GlassNav";
+// // import { MARKET_CONFIG } from "../constants/markets";
+// import { MARKET_METADATA } from "../constants/marketMetadata";
+
+// export const HomePage = () => {
+//   const [period, setPeriod] = useState(24);
+//   const [activeSector, setActiveSector] = useState("All");
+
+//   const [dynamicMarkets, setDynamicMarkets] = useState([]);
+
+//   const {
+//     maxLiqs,
+//     liquidations,
+//     totalUsers,
+//     totalNetworkOi,
+//     totalVolume,
+//     newUsers,
+//     revenue,
+//     periodRekt,
+//     requestGlobalPeriod,
+//     topGainers,
+//     topLosers,
+//   } = useLiquidations(period);
+
+//   useEffect(() => {
+//     requestGlobalPeriod(period);
+//   }, [period]);
+
+//   useEffect(() => {
+//     const fetchMarkets = async () => {
+//       try {
+//         const response = await fetch("https://explorer.elliot.ai/api/markets");
+//         const apiData = await response.json();
+
+//         const formatted = apiData.map((item) => {
+//           const meta = MARKET_METADATA[item.symbol] || {};
+
+//           return {
+//             id: item.market_index,
+//             symbol: item.symbol,
+//             sector: meta.sector || "Crypto",
+//             title: meta.title || item.symbol,
+//             icon: meta.icon || "https://...",
+//           };
+//         });
+//         setDynamicMarkets(formatted);
+//       } catch (e) {
+//         console.error(e);
+//       }
+//     };
+//     fetchMarkets();
+//   }, []);
+
+//   // 2. ФИЛЬТРАЦИЯ
+//   const visibleCards = useMemo(() => {
+//     if (dynamicMarkets.length === 0) return [];
+//     let filtered =
+//       activeSector === "All"
+//         ? [...dynamicMarkets]
+//         : dynamicMarkets.filter((card) => card.sector === activeSector);
+//     return filtered.sort((a, b) => {
+//       const valueA = maxLiqs[a.symbol] || 0;
+//       const valueB = maxLiqs[b.symbol] || 0;
+//       return valueB - valueA;
+//     });
+//   }, [activeSector, dynamicMarkets, maxLiqs]);
+
+//   return (
+//     <div style={{ minHeight: "100vh", paddingBottom: "40px" }}>
+//       <AppHeader />
+//       <Row justify="center" style={{ marginTop: "20px" }}>
+//         <Col xs={23} md={23} xl={23}>
+//           <StatsOverview
+//             totalUsers={totalUsers}
+//             totalNetworkOi={totalNetworkOi}
+//             totalVolume={totalVolume}
+//             newUsers={newUsers}
+//             revenue={revenue}
+//           />
+//           <RektStats
+//             stats={periodRekt}
+//             // value={periodRekt}
+//             period={period}
+//             onPeriodChange={setPeriod}
+//             topGainers={topGainers}
+//             topLosers={topLosers}
+//           />
+
+//           {/* НАВИГАЦИЯ */}
+//           <GlassNav
+//             active={activeSector}
+//             onChange={setActiveSector}
+//             markets={dynamicMarketsф}
+//           />
+
+//           {/* 3. ОТРИСОВКА (ТОЛЬКО ЦИКЛ, НИКАКОГО ХАРДКОДА) */}
+//           <Row gutter={[16, 16]}>
+//             {visibleCards.map((card) => (
+//               <Col xs={24} md={8} key={card.id}>
+//                 <CoinCard
+//                   title={card.title}
+//                   symbol={card.symbol}
+//                   iconUrl={card.icon}
+//                   data={liquidations[card.symbol]}
+//                   max24h={maxLiqs[card.symbol] || 0}
+//                   linkTo={`/liquidations/${card.id}`}
+//                 />
+//               </Col>
+//             ))}
+
+//             {visibleCards.length === 0 && (
+//               <div
+//                 style={{
+//                   width: "100%",
+//                   textAlign: "center",
+//                   padding: "40px",
+//                   color: "#666",
+//                 }}
+//               >
+//                 No assets found in {activeSector}.
+//               </div>
+//             )}
+//           </Row>
+//         </Col>
+//       </Row>
+//     </div>
+//   );
+// };
