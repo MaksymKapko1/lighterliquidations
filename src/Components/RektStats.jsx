@@ -9,14 +9,81 @@ import {
   ClockCircleOutlined,
 } from "@ant-design/icons";
 
+const LiquidationBar = ({ longs, shorts }) => {
+  const total = longs + shorts;
+  if (total === 0) return null;
+
+  const longPct = (longs / total) * 100;
+  const shortPct = (shorts / total) * 100;
+
+  return (
+    <div style={{ width: "100%", marginBottom: "20px", marginTop: "10px" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          fontSize: "11px",
+          color: "#8c8c8c",
+          marginBottom: "4px",
+          textTransform: "uppercase",
+          letterSpacing: "0.5px",
+        }}
+      >
+        <span>
+          Longs{" "}
+          <span style={{ color: "#f85149" }}>
+            ${Number(longs).toLocaleString("en-US", { notation: "compact" })}
+          </span>
+        </span>
+        <span>
+          Shorts{" "}
+          <span style={{ color: "#3fb950" }}>
+            ${Number(shorts).toLocaleString("en-US", { notation: "compact" })}
+          </span>
+        </span>
+      </div>
+
+      <div
+        style={{
+          display: "flex",
+          height: "6px",
+          borderRadius: "3px",
+          overflow: "hidden",
+          background: "rgba(255,255,255,0.1)",
+        }}
+      >
+        <div
+          style={{
+            width: `${longPct}%`,
+            background: "#f85149",
+            transition: "width 0.5s",
+          }}
+        />{" "}
+        <div
+          style={{
+            width: `${shortPct}%`,
+            background: "#3fb950",
+            transition: "width 0.5s",
+          }}
+        />{" "}
+      </div>
+    </div>
+  );
+};
+
 export const RektStats = ({
   period,
   onPeriodChange,
-  value,
+  // value,
+  stats,
   onRequestUpdate,
   topGainers = [],
   topLosers = [],
 }) => {
+  const totalValue = stats?.total || 0;
+  const longVol = stats?.longs || 0;
+  const shortVol = stats?.shorts || 0;
+
   const options = [
     { label: "1H", value: 1 },
     { label: "4H", value: 4 },
@@ -64,7 +131,7 @@ export const RektStats = ({
             Total Liquidated
           </div>
           <Statistic
-            value={value}
+            value={totalValue} // Используем totalValue
             prefix={
               <span
                 style={{
@@ -103,6 +170,50 @@ export const RektStats = ({
               </span>
             )}
           />
+
+          <div style={{ width: "80%", maxWidth: "300px" }}>
+            <LiquidationBar longs={longVol} shorts={shortVol} />
+          </div>
+          {/* <Statistic
+            value={value}
+            prefix={
+              <span
+                style={{
+                  color: "#ff4d4f",
+                  fontSize: "3rem",
+                  fontWeight: "bold",
+                  marginRight: "5px",
+                }}
+              >
+                $
+              </span>
+            }
+            suffix={
+              <FireOutlined
+                style={{
+                  color: "#ff7875",
+                  fontSize: "2rem",
+                  marginLeft: "15px",
+                  verticalAlign: "middle",
+                }}
+              />
+            }
+            formatter={(val) => (
+              <span
+                style={{
+                  color: "#ff4d4f",
+                  fontSize: "3rem",
+                  fontWeight: "bold",
+                  fontFamily: "'Roboto Mono', monospace",
+                }}
+              >
+                {Number(val).toLocaleString("en-US", {
+                  notation: "compact",
+                  maximumFractionDigits: 2,
+                })}
+              </span>
+            )}
+          /> */}
 
           <div style={{ marginTop: "20px" }}>
             <div

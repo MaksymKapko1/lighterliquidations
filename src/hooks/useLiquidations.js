@@ -9,6 +9,13 @@ import {
 import { useSocketConnection } from "./useSocketConnection";
 
 const initialState = {
+  isLoading: true,
+
+  periodRekt: {
+    total: 0,
+    longs: 0,
+    shorts: 0,
+  },
   connectionStatus: "Disconnected",
   isReady: false,
   liquidations: {
@@ -35,7 +42,6 @@ const initialState = {
     topGainers: [],
     topLosers: [],
   },
-  periodRekt: 0,
 };
 
 function liquidationReducer(state, action) {
@@ -68,7 +74,7 @@ function liquidationReducer(state, action) {
         globalStats: { ...state.globalStats, ...action.data },
       };
     case "global_period_update":
-      return { ...state, periodRekt: action.value };
+      return { ...state, periodRekt: action.stats };
     case "max_liq_per_coin":
       return { ...state, maxLiqs: action.data };
     default:
@@ -114,6 +120,8 @@ export const useLiquidations = (selectedPeriod) => {
         type: response.type,
         data: response.data,
         value: response.value,
+        stats: response.stats,
+        hours: response.hours,
       });
     } catch (err) {
       console.error(err);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useReducer } from "react";
 import { Col, Row } from "antd";
 import { CoinCard } from "../Components/CoinCard";
 import { useLiquidations } from "../hooks/useLiquidations";
@@ -51,7 +51,8 @@ export const HomePage = () => {
             revenue={revenue}
           />
           <RektStats
-            value={periodRekt}
+            stats={periodRekt}
+            // value={periodRekt}
             period={period}
             onPeriodChange={setPeriod}
             topGainers={topGainers}
