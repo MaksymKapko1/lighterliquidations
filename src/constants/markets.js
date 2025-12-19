@@ -60,6 +60,24 @@ export const MARKET_CONFIG = [
     title: "FARTCOIN",
     icon: "https://app.lighter.xyz/assets/fartcoin-CAgd0qdd.png",
   },
+  {
+    id: "ZORA",
+    sector: "Crypto",
+    title: "ZORA",
+    icon: "https://s2.coinmarketcap.com/static/img/coins/64x64/35931.png",
+  },
+  {
+    id: "RESOLV",
+    sector: "Crypto",
+    title: "RESOLV",
+    icon: "https://s2.coinmarketcap.com/static/img/coins/64x64/36713.png",
+  },
+  {
+    id: "GRASS",
+    sector: "Crypto",
+    title: "GRASS",
+    icon: "https://s2.coinmarketcap.com/static/img/coins/64x64/32956.png",
+  },
 
   // --- EQUITIES ---
   {
