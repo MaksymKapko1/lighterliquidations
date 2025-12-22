@@ -7,7 +7,10 @@ import {
   ArrowUpOutlined,
   ArrowDownOutlined,
   ClockCircleOutlined,
+  PieChartOutlined,
 } from "@ant-design/icons";
+
+import "./FlipCard.css";
 
 const LiquidationBar = ({ longs, shorts }) => {
   const total = longs + shorts;
@@ -74,7 +77,6 @@ const LiquidationBar = ({ longs, shorts }) => {
 export const RektStats = ({
   period,
   onPeriodChange,
-  // value,
   stats,
   onRequestUpdate,
   topGainers = [],
@@ -83,6 +85,17 @@ export const RektStats = ({
   const totalValue = stats?.total || 0;
   const longVol = stats?.longs || 0;
   const shortVol = stats?.shorts || 0;
+
+  const [isFlipped, setIsFlipped] = useState(false);
+
+  const handleFlip = () => {
+    setIsFlipped(!isFlipped);
+  };
+
+  const handlePeriodClick = (e, val) => {
+    e.stopPropagation();
+    onPeriodChange(val);
+  };
 
   const options = [
     { label: "1H", value: 1 },
@@ -118,159 +131,148 @@ export const RektStats = ({
       gutter={[24, 24]}
     >
       <Col xs={24} md={12} style={{ display: "flex", flexDirection: "column" }}>
-        <Card style={commonCardStyle} bodyStyle={centeredBodyStyle}>
-          <div
-            style={{
-              textAlign: "center",
-              color: "#8c8c8c",
-              textTransform: "uppercase",
-              letterSpacing: "1px",
-              marginBottom: "10px",
-            }}
-          >
-            Total Liquidated
-          </div>
-          <Statistic
-            value={totalValue} // Используем totalValue
-            prefix={
-              <span
+        <div className="flip-scene" onClick={handleFlip}>
+          <div className={`flip-card-inner ${isFlipped ? "flipped" : ""}`}>
+            <div className="flip-card-face flip-card-front">
+              <div
                 style={{
-                  color: "#ff4d4f",
-                  fontSize: "3rem",
-                  fontWeight: "bold",
-                  marginRight: "5px",
+                  textAlign: "center",
+                  color: "#8c8c8c",
+                  textTransform: "uppercase",
+                  letterSpacing: "1px",
+                  marginBottom: "10px",
                 }}
               >
-                $
-              </span>
-            }
-            suffix={
-              <FireOutlined
-                style={{
-                  color: "#ff7875",
-                  fontSize: "2rem",
-                  marginLeft: "15px",
-                  verticalAlign: "middle",
-                }}
-              />
-            }
-            formatter={(val) => (
-              <span
-                style={{
-                  color: "#ff4d4f",
-                  fontSize: "3rem",
-                  fontWeight: "bold",
-                  fontFamily: "'Roboto Mono', monospace",
-                }}
-              >
-                {Number(val).toLocaleString("en-US", {
-                  notation: "compact",
-                  maximumFractionDigits: 2,
-                })}
-              </span>
-            )}
-          />
-
-          <div style={{ width: "80%", maxWidth: "300px" }}>
-            <LiquidationBar longs={longVol} shorts={shortVol} />
-          </div>
-          {/* <Statistic
-            value={value}
-            prefix={
-              <span
-                style={{
-                  color: "#ff4d4f",
-                  fontSize: "3rem",
-                  fontWeight: "bold",
-                  marginRight: "5px",
-                }}
-              >
-                $
-              </span>
-            }
-            suffix={
-              <FireOutlined
-                style={{
-                  color: "#ff7875",
-                  fontSize: "2rem",
-                  marginLeft: "15px",
-                  verticalAlign: "middle",
-                }}
-              />
-            }
-            formatter={(val) => (
-              <span
-                style={{
-                  color: "#ff4d4f",
-                  fontSize: "3rem",
-                  fontWeight: "bold",
-                  fontFamily: "'Roboto Mono', monospace",
-                }}
-              >
-                {Number(val).toLocaleString("en-US", {
-                  notation: "compact",
-                  maximumFractionDigits: 2,
-                })}
-              </span>
-            )}
-          /> */}
-
-          <div style={{ marginTop: "20px" }}>
-            <div
-              style={{
-                background: "rgba(255, 255, 255, 0.03)",
-                padding: "4px",
-                borderRadius: "12px",
-                display: "flex",
-                flexWrap: "wrap",
-                justifyContent: "center",
-                gap: "4px",
-                border: "1px solid rgba(255, 255, 255, 0.08)",
-                backdropFilter: "blur(5px)",
-              }}
-            >
-              {options.map((opt) => {
-                const isActive = period === opt.value;
-                return (
-                  <div
-                    key={opt.value}
-                    onClick={() => onPeriodChange(opt.value)}
+                Total Liquidated
+              </div>
+              <Statistic
+                value={totalValue}
+                prefix={
+                  <span
                     style={{
-                      cursor: "pointer",
-                      padding: "6px 16px",
-                      borderRadius: "8px",
-
-                      color: isActive ? "#fff" : "#6b7280",
-                      fontWeight: isActive ? "600" : "500",
-
-                      background: isActive
-                        ? "rgba(56, 139, 253, 0.15)"
-                        : "transparent",
-                      border: isActive
-                        ? "1px solid rgba(56, 139, 253, 0.3)"
-                        : "1px solid transparent",
-                      transition: "all 0.3s ease",
-                      fontSize: "13px",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "6px",
-                      boxShadow: isActive
-                        ? "0 0 10px rgba(56, 139, 253, 0.1)"
-                        : "none",
+                      color: "#ff4d4f",
+                      fontSize: "3rem",
+                      fontWeight: "bold",
+                      marginRight: "5px",
                     }}
                   >
-                    {isActive && (
-                      <ClockCircleOutlined
-                        style={{ fontSize: "12px", color: "#58a6ff" }}
-                      />
-                    )}
-                    {opt.label}
-                  </div>
-                );
-              })}
+                    $
+                  </span>
+                }
+                suffix={
+                  <FireOutlined
+                    style={{
+                      color: "#ff7875",
+                      fontSize: "2rem",
+                      marginLeft: "15px",
+                      verticalAlign: "middle",
+                    }}
+                  />
+                }
+                formatter={(val) => (
+                  <span
+                    style={{
+                      color: "#ff4d4f",
+                      fontSize: "3.5rem",
+                      fontWeight: "800",
+                      fontFamily: "'Roboto Mono', monospace",
+                      letterSpacing: "-1px",
+                    }}
+                  >
+                    {Number(val).toLocaleString("en-US", {
+                      notation: "compact",
+                      maximumFractionDigits: 2,
+                    })}
+                  </span>
+                )}
+              />
+              <div
+                style={{
+                  width: "80%",
+                  maxWidth: "300px",
+                  padding: "0 12px",
+                }}
+              >
+                <LiquidationBar longs={longVol} shorts={shortVol} />
+              </div>
+              <div>
+                <div
+                  style={{
+                    background: "rgba(255, 255, 255, 0.03)",
+                    padding: "4px",
+                    borderRadius: "12px",
+                    display: "flex",
+                    flexWrap: "wrap",
+                    justifyContent: "center",
+                    gap: "4px",
+                    border: "1px solid rgba(255, 255, 255, 0.08)",
+                    backdropFilter: "blur(5px)",
+                  }}
+                >
+                  {options.map((opt) => {
+                    const isActive = period === opt.value;
+                    return (
+                      <div
+                        key={opt.value}
+                        onClick={(e) => handlePeriodClick(e, opt.value)}
+                        style={{
+                          cursor: "pointer",
+                          padding: "6px 16px",
+                          borderRadius: "8px",
+
+                          color: isActive ? "#fff" : "#6b7280",
+                          fontWeight: isActive ? "600" : "500",
+
+                          background: isActive
+                            ? "rgba(56, 139, 253, 0.15)"
+                            : "transparent",
+                          border: isActive
+                            ? "1px solid rgba(56, 139, 253, 0.3)"
+                            : "1px solid transparent",
+                          transition: "all 0.3s ease",
+                          fontSize: "13px",
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "6px",
+                          boxShadow: isActive
+                            ? "0 0 10px rgba(56, 139, 253, 0.1)"
+                            : "none",
+                        }}
+                      >
+                        {isActive && (
+                          <ClockCircleOutlined
+                            style={{ fontSize: "12px", color: "#58a6ff" }}
+                          />
+                        )}
+                        {opt.label}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
+            <div className="flip-card-face flip-card-back">
+              <PieChartOutlined
+                style={{
+                  fontSize: "4rem",
+                  color: "#58a6ff",
+                  marginBottom: "20px",
+                }}
+              />
+              <div>Charts coming soon...</div>
+              <div
+                style={{
+                  fontSize: "12px",
+                  color: "#8c8c8c",
+                  marginTop: "10px",
+                }}
+              >
+                Tap to flip back
+              </div>
             </div>
           </div>
-        </Card>
+        </div>
       </Col>
 
       <Col xs={24} md={12}>
