@@ -11,7 +11,7 @@ import {
 } from "@ant-design/icons";
 
 import "./FlipCard.css";
-
+import LiquidationDonut from "../hooks/LiquidationDonut.jsx";
 const LiquidationBar = ({ longs, shorts }) => {
   const total = longs + shorts;
   if (total === 0) return null;
@@ -81,6 +81,7 @@ export const RektStats = ({
   onRequestUpdate,
   topGainers = [],
   topLosers = [],
+  topLiquidations = [],
 }) => {
   const totalValue = stats?.total || 0;
   const longVol = stats?.longs || 0;
@@ -143,7 +144,19 @@ export const RektStats = ({
                   marginBottom: "10px",
                 }}
               >
-                Total Liquidated
+                Total Liquidated:
+              </div>
+              <div
+                style={{
+                  textAlign: "center",
+                  color: "#8c8c8c",
+                  textTransform: "uppercase",
+                  letterSpacing: "1px",
+                  marginBottom: "10px",
+                  fontSize: "10px",
+                }}
+              >
+                Click to reveal more data
               </div>
               <Statistic
                 value={totalValue}
@@ -253,23 +266,29 @@ export const RektStats = ({
             </div>
 
             <div className="flip-card-face flip-card-back">
-              <PieChartOutlined
-                style={{
-                  fontSize: "4rem",
-                  color: "#58a6ff",
-                  marginBottom: "20px",
-                }}
-              />
-              <div>Charts coming soon...</div>
               <div
                 style={{
-                  fontSize: "12px",
                   color: "#8c8c8c",
-                  marginTop: "10px",
+                  fontSize: "11px",
+                  textTransform: "uppercase",
+                  letterSpacing: "1px",
+                  marginBottom: "5px",
                 }}
               >
-                Tap to flip back
+                Liquidation Breakdown
               </div>
+              <LiquidationDonut data={topLiquidations} />
+            </div>
+            <div
+              style={{
+                fontSize: "11px",
+                color: "#555",
+                marginTop: "auto",
+                textTransform: "uppercase",
+                letterSpacing: "1px",
+              }}
+            >
+              Tap to flip back
             </div>
           </div>
         </div>

@@ -11,6 +11,8 @@ import { useSocketConnection } from "./useSocketConnection";
 const initialState = {
   isLoading: true,
 
+  topLiquidations: [],
+
   periodRekt: {
     total: 0,
     longs: 0,
@@ -65,7 +67,13 @@ function liquidationReducer(state, action) {
       return { ...state, liquidations: nextLiqs };
     }
     case "stats_update":
-      return { ...state, lastStats: action.data };
+      return {
+        ...state,
+        lastStats: action.data,
+        topLiquidations: action.topLiquidations
+          ? action.topLiquidations
+          : state.topLiquidations,
+      };
     case "oi_update_batch":
       return { ...state, openInterest: action.data };
     case "global_stats":
@@ -74,7 +82,11 @@ function liquidationReducer(state, action) {
         globalStats: { ...state.globalStats, ...action.data },
       };
     case "global_period_update":
-      return { ...state, periodRekt: action.stats };
+      return {
+        ...state,
+        periodRekt: action.stats,
+        topLiquidations: action.topLiquidations || [],
+      };
     case "max_liq_per_coin":
       return { ...state, maxLiqs: action.data };
     default:
@@ -122,6 +134,9 @@ export const useLiquidations = (selectedPeriod) => {
         value: response.value,
         stats: response.stats,
         hours: response.hours,
+        topLiquidations:
+          response.topLiquidations ||
+          (response.data && response.data.topLiquidations),
       });
     } catch (err) {
       console.error(err);

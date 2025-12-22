@@ -8,7 +8,6 @@ import { RektStats } from "../Components/RektStats";
 import { GlassNav } from "../Components/GlassNav";
 import { MARKET_METADATA } from "../constants/marketMetadata";
 
-// ✅ ДОБАВИЛ: простая сетка скелетонов под твой layout
 const SkeletonGrid = ({ count = 9 }) => (
   <Row gutter={[16, 16]}>
     {Array.from({ length: count }).map((_, i) => (
@@ -43,6 +42,7 @@ export const HomePage = () => {
     requestGlobalPeriod,
     topGainers,
     topLosers,
+    topLiquidations,
   } = useLiquidations(period);
 
   useEffect(() => {
@@ -113,6 +113,7 @@ export const HomePage = () => {
             onPeriodChange={setPeriod}
             topGainers={topGainers}
             topLosers={topLosers}
+            topLiquidations={topLiquidations}
           />
 
           <GlassNav
