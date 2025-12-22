@@ -236,11 +236,6 @@ export const MARKET_METADATA = {
     title: "CRO",
     icon: "https://app.lighter.xyz/assets/cro-C7lstwu3.png",
   },
-  XAU: {
-    sector: "Crypto",
-    title: "XAU",
-    icon: "https://app.lighter.xyz/assets/xau-DtjHfWRI.png",
-  },
   ENA: {
     sector: "Crypto",
     title: "ENA",
@@ -581,5 +576,17 @@ export const MARKET_METADATA = {
     sector: "FX",
     title: "USD/KRW",
     icon: "https://hatscripts.github.io/circle-flags/flags/kr.svg",
+  },
+
+  // --- Commodities ---
+  XAU: {
+    sector: "Commodities",
+    title: "XAU",
+    icon: "https://app.lighter.xyz/assets/xau-DtjHfWRI.png",
+  },
+  XAG: {
+    sector: "Commodities",
+    title: "XAG",
+    icon: "https://app.lighter.xyz/assets/xag-DMALkKAA.png",
   },
 };

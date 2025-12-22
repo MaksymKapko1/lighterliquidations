@@ -2,7 +2,14 @@ import React from "react";
 import { CoinSearch } from "./ClientSearch";
 
 export const GlassNav = ({ active, onChange, markets }) => {
-  const sectors = ["All", "Crypto", "Equities", "FX", "Pre-launch"];
+  const sectors = [
+    "All",
+    "Crypto",
+    "Equities",
+    "FX",
+    "Commodities",
+    "Pre-launch",
+  ];
 
   return (
     <div style={styles.glassContainer}>
