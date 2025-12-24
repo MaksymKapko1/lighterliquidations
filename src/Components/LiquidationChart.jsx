@@ -105,7 +105,7 @@ export const LiquidationChart = ({ data, onRequestUpdate }) => {
           }}
         >
           <ClockCircleOutlined style={{ color: "#388bfd" }} />
-          Liquidation Trend
+          Liquidation Trend $USD
         </div>
 
         <div style={{ display: "flex", gap: "4px" }}>
