@@ -43,6 +43,8 @@ export const HomePage = () => {
     topGainers,
     topLosers,
     topLiquidations,
+    chartData,
+    requestChartData,
   } = useLiquidations(period);
 
   useEffect(() => {
@@ -114,6 +116,8 @@ export const HomePage = () => {
             topGainers={topGainers}
             topLosers={topLosers}
             topLiquidations={topLiquidations}
+            chartData={chartData}
+            onRequestChartUpdate={requestChartData}
           />
 
           <GlassNav

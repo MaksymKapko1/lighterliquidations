@@ -12,6 +12,7 @@ import {
 
 import "./FlipCard.css";
 import LiquidationDonut from "../hooks/LiquidationDonut.jsx";
+import { LiquidationChart } from "./LiquidationChart.jsx";
 const LiquidationBar = ({ longs, shorts }) => {
   const total = longs + shorts;
   if (total === 0) return null;
@@ -79,6 +80,8 @@ export const RektStats = ({
   onPeriodChange,
   stats,
   onRequestUpdate,
+  onRequestChartUpdate,
+  chartData,
   topGainers = [],
   topLosers = [],
   topLiquidations = [],
@@ -112,6 +115,7 @@ export const RektStats = ({
     borderRadius: "10px",
     boxShadow: "0 4px 15px rgba(0,0,0,0.5)",
     height: "100%",
+    overflow: "hidden",
   };
 
   const centeredBodyStyle = {
@@ -296,7 +300,11 @@ export const RektStats = ({
 
       <Col xs={24} md={12}>
         <Card style={commonCardStyle} bodyStyle={{ padding: "24px" }}>
-          <Row gutter={[24, 24]}>
+          <LiquidationChart
+            data={chartData}
+            onRequestUpdate={onRequestChartUpdate}
+          />
+          {/* <Row gutter={[24, 24]}>
             <Col span={12}>
               <div
                 style={{
@@ -406,7 +414,7 @@ export const RektStats = ({
                 )}
               </div>
             </Col>
-          </Row>
+          </Row> */}
         </Card>
       </Col>
     </Row>

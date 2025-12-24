@@ -31,9 +31,11 @@ const initialState = {
     GOOGL: [],
     META: [],
   },
+
   lastStats: { vol: 0, max: 0 },
   maxLiqs: {},
   openInterest: {},
+
   globalStats: {
     totalUsers: 0,
     totalNetworkOi: 0,
@@ -44,6 +46,8 @@ const initialState = {
     topGainers: [],
     topLosers: [],
   },
+
+  chartData: [],
 };
 
 function liquidationReducer(state, action) {
@@ -89,6 +93,9 @@ function liquidationReducer(state, action) {
       };
     case "max_liq_per_coin":
       return { ...state, maxLiqs: action.data };
+
+    case "chart_response":
+      return { ...state, chartData: action.data };
     default:
       return state;
   }
@@ -112,6 +119,7 @@ export const useLiquidations = (selectedPeriod) => {
         hours: activePeriodRef.current || 24,
       })
     );
+    ws.send(JSON.stringify({ type: "get_chart_data", hours: 24 }), []);
   }, []);
 
   const handleMessage = useCallback((event) => {
@@ -127,17 +135,8 @@ export const useLiquidations = (selectedPeriod) => {
             : 24;
         if (serverHours !== myHours) return;
       }
-
-      dispatch({
-        type: response.type,
-        data: response.data,
-        value: response.value,
-        stats: response.stats,
-        hours: response.hours,
-        topLiquidations:
-          response.topLiquidations ||
-          (response.data && response.data.topLiquidations),
-      });
+      dispatch(response);
+      // !!!!!
     } catch (err) {
       console.error(err);
     }
@@ -161,11 +160,19 @@ export const useLiquidations = (selectedPeriod) => {
     [send]
   );
 
+  const requestChartData = useCallback(
+    (hours) => {
+      send({ type: "get_chart_data", hours });
+    },
+    [send]
+  );
+
   return {
     ...state,
     ...state.globalStats,
     connectionStatus: status,
     requestGlobalPeriod,
     sendRequest: send,
+    requestChartData,
   };
 };
