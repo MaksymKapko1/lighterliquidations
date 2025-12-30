@@ -1,0 +1,112 @@
+/* Основной контейнер карточки */
+.card {
+  cursor: pointer;
+  height: 100%;
+  background: rgba(13, 17, 23, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(48, 54, 61, 0.5);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(48, 54, 61, 0.8);
+}
+
+/* Переопределение стилей Ant Design (Шапка и Тело) */
+.card :global(.ant-card-head) {
+  border-bottom: 1px solid rgba(48, 54, 61, 0.5);
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  min-height: auto;
+  padding: 0 20px;
+}
+
+.card :global(.ant-card-body) {
+  padding: 15px;
+}
+
+/* Внутренние элементы */
+.titleWrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  color: white;
+}
+
+.priceBlock {
+  text-align: left;
+}
+
+.label {
+  font-size: 12px;
+  color: #8b949e;
+  margin-bottom: 4px;
+}
+
+.priceValue {
+  color: #fff;
+  font-size: 20px;
+  font-weight: bold;
+  font-family: "Roboto Mono", monospace;
+}
+
+/* Панель статистики (Glass) */
+.statsPanel {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.volumeRow {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 10px;
+}
+
+.flexBetween {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.iconLabel {
+  color: #8b949e;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Маленькие подписи High/Low */
+.smallLabel {
+  font-size: 11px;
+  color: #8b949e;
+  margin-bottom: 4px;
+}
+
+.monoText {
+  color: #c9d1d9;
+  font-family: monospace;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.monoTextWhite {
+  color: #fff;
+  font-family: monospace;
+  font-size: 13px;
+}
+
+.textRight {
+  text-align: Right;
+}

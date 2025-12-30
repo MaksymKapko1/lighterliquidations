@@ -1,13 +1,15 @@
 import { useState, useEffect } from "react";
 import { HashRouter as Router, Routes, Route } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { HomePage } from "./Pages/HomePage";
 import { CoinLiquidationPage } from "./Pages/CoinLiquidationPage";
 import { Snowfall } from "react-snowfall";
 import { Link } from "react-router-dom";
+import { SpotPage } from "./Pages/SpotPage";
 import "./App.css";
 function App() {
   return (
-    <Router>
+    <>
       <Snowfall
         style={{
           position: "fixed",
@@ -22,8 +24,10 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/liquidations/:coin" element={<CoinLiquidationPage />} />
+        <Route path="/spot" element={<SpotPage />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-    </Router>
+    </>
   );
 }
 

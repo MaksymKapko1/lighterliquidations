@@ -1,0 +1,196 @@
+/* CoinCard.module.css */
+
+/* --- Карточка --- */
+.card {
+  height: 100%;
+  background: rgba(13, 17, 23, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(48, 54, 61, 0.5);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(48, 54, 61, 0.8);
+}
+
+/* Переопределение стилей Ant Design */
+.card :global(.ant-card-head) {
+  border-bottom: 1px solid rgba(48, 54, 61, 0.5);
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 0 15px;
+}
+
+.card :global(.ant-card-body) {
+  padding: 15px;
+}
+
+/* --- Заголовок --- */
+.headerContainer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.coinIcon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.fallbackIcon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #f7931a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.titleWrapper {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.coinName {
+  letter-spacing: 1px;
+  color: #fff;
+  font-size: 16px;
+}
+
+.subInfo {
+  letter-spacing: 0.5px;
+  font-size: 14px;
+  color: #8b949e;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+}
+
+.badge {
+  display: inline-block;
+  margin-left: 8px;
+  color: #fff;
+  font-weight: 800;
+  font-size: 14px;
+  font-family: "Roboto Mono", monospace;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 2px 8px;
+  border-radius: 6px;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+  letter-spacing: 0.5px;
+}
+
+/* --- Список (Грид) --- */
+.gridContainer {
+  display: grid;
+  gap: 12px;
+}
+
+.emptyState {
+  text-align: center;
+  color: #8b949e;
+  padding: 20px 0;
+}
+
+/* --- Строка ликвидации --- */
+.liqRow {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr auto;
+  align-items: center;
+  padding: 12px 16px;
+  transition: all 0.2s ease;
+}
+
+/* CSS Hover вместо JS событий! */
+.liqRow:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.liqInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.amount {
+  color: #ff4d4f;
+  font-weight: bold;
+  font-size: 16px;
+  font-family: monospace;
+  letter-spacing: 0.5px;
+  text-shadow: 0 0 10px rgba(255, 77, 79, 0.25);
+}
+
+.typeTag {
+  margin-left: 8px;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.typeShort {
+  color: #52c41a;
+  background: rgba(82, 196, 26, 0.15);
+  border: 1px solid rgba(82, 196, 26, 0.3);
+}
+
+.typeLong {
+  color: #ff4d4f;
+  background: rgba(255, 77, 79, 0.15);
+  border: 1px solid rgba(255, 77, 79, 0.3);
+}
+
+.priceCol {
+  text-align: right;
+  padding-right: 15px;
+}
+
+.priceLabel {
+  font-size: 10px;
+  color: #6b7280;
+  text-transform: uppercase;
+}
+
+.priceValue {
+  color: #c9d1d9;
+  font-size: 13px;
+  font-family: monospace;
+}
+
+.linkBtn {
+  color: #58a6ff;
+  background: rgba(56, 139, 253, 0.15);
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition: 0.2s;
+  border: 1px solid rgba(56, 139, 253, 0.2);
+}
+
+.linkBtn:hover {
+  background: rgba(56, 139, 253, 0.3);
+  color: #fff;
+}

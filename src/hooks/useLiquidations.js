@@ -45,6 +45,7 @@ const initialState = {
     totalDbRekt: 0,
     topGainers: [],
     topLosers: [],
+    spotMarket: [],
   },
 
   chartData: [],

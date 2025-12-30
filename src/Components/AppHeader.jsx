@@ -1,7 +1,11 @@
 import React from "react";
 import { Layout, Button } from "antd";
-import { Link, useLocation } from "react-router-dom";
-import { FireOutlined, HomeOutlined } from "@ant-design/icons";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import {
+  FireOutlined,
+  HomeOutlined,
+  LineChartOutlined,
+} from "@ant-design/icons";
 
 const { Header } = Layout;
 
@@ -41,6 +45,26 @@ const CandleIcon = () => (
 
 export const AppHeader = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const isSpot = location.pathname === "/spot";
+
+  const navBtnStyle = (active) => ({
+    padding: "8px 16px",
+    borderRadius: "8px",
+    cursor: "pointer",
+    fontWeight: "600",
+    fontSize: "14px",
+    display: "flex",
+    alignItems: "center",
+    gap: "8px",
+    transition: "all 0.3s ease",
+    background: active ? "rgba(56, 139, 253, 0.2)" : "transparent",
+    color: active ? "#58a6ff" : "#8b949e",
+    border: active
+      ? "1px solid rgba(56, 139, 253, 0.4)"
+      : "1px solid transparent",
+  });
 
   return (
     <Header
@@ -90,6 +114,15 @@ export const AppHeader = () => {
             Lighter Liquidations
           </span>
         </Link>
+        {!isSpot ? (
+          <div style={navBtnStyle(false)} onClick={() => navigate("/spot")}>
+            <LineChartOutlined /> Spot Market
+          </div>
+        ) : (
+          <div style={navBtnStyle(false)} onClick={() => navigate("/")}>
+            <FireOutlined /> Liquidations
+          </div>
+        )}
       </div>
     </Header>
   );
