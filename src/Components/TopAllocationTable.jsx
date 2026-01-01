@@ -79,7 +79,7 @@ export const TopAllocationsTable = ({ data, isLoading, onUserClick }) => {
             style={{ ...styles.amountCell, cursor: "pointer" }}
             onClick={() => onUserClick && onUserClick(record.user_id)}
           >
-            <RubyOutlined style={{ color: "#2ea043", fontSize: "14px" }} />
+            <RubyOutlined style={{ color: "#ffffffff", fontSize: "14px" }} />
             <span style={styles.amountText}>
               {Number(amount).toLocaleString()} LIT
             </span>
