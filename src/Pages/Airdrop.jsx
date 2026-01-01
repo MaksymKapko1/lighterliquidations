@@ -16,7 +16,7 @@ import "./AirdropPage.css";
 
 import { useNavigate } from "react-router-dom";
 
-const SOCKET_URL = import.meta.env.VITE_WEBSOCKET_URL || "ws://localhost:8765";
+const SOCKET_URL = import.meta.env.VITE_WS_URL || "ws://localhost:8765";
 
 export const Airdrop = () => {
   const [userData, setUserData] = useState(null);
