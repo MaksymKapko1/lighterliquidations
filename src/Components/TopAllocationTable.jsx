@@ -112,7 +112,7 @@ export const TopAllocationsTable = ({ data, isLoading, onUserClick }) => {
   );
   return (
     <div style={styles.tableContainer}>
-      <div style={styles.tableHeader}>
+      <div className="table-custom-header">
         <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
           <div style={styles.liveIndicator}></div>
           <h3 style={styles.tableTitle}>TOP 100 WHALES</h3>
@@ -179,15 +179,7 @@ const styles = {
     overflow: "hidden",
     backdropFilter: "blur(10px)",
     boxShadow: "0 4px 24px rgba(0,0,0,0.2)",
-    width: "100%",
-    maxWidth: "1000px", // Ограничим ширину, чтобы не растягивалось на весь 4к монитор
-  },
-  tableHeader: {
-    padding: "20px 30px",
-    borderBottom: "1px solid rgba(48, 54, 61, 0.4)",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
+    width: "100%", // Ограничим ширину, чтобы не растягивалось на весь 4к монитор
   },
   liveIndicator: {
     width: "8px",

@@ -7,6 +7,7 @@ import {
   LineChartOutlined,
   GiftOutlined,
 } from "@ant-design/icons";
+import "./AppHeader.css";
 
 const { Header } = Layout;
 
@@ -69,31 +70,9 @@ export const AppHeader = () => {
   });
 
   return (
-    <Header
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        background: "rgba(0, 0, 0, 0.3)",
-        backdropFilter: "blur(10px)",
-        borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
-        padding: "0 20px",
-        height: "64px",
-        position: "sticky",
-        top: 0,
-        zIndex: 1000,
-      }}
-    >
-      <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-        <Link
-          to="/"
-          style={{
-            textDecoration: "none",
-            display: "flex",
-            alignItems: "center",
-            gap: "12px",
-          }}
-        >
+    <Header className="app-header">
+      <div className="header-inner">
+        <Link to="/" className="logo-link">
           <div
             style={{
               display: "flex",
@@ -104,17 +83,7 @@ export const AppHeader = () => {
             <CandleIcon />
           </div>
 
-          <span
-            style={{
-              color: "#fff",
-              fontSize: "18px",
-              fontWeight: "bold",
-              fontFamily: "monospace",
-              letterSpacing: "1px",
-            }}
-          >
-            Lighter Liquidations
-          </span>
+          <span className="logo-text">Lighter Liquidations</span>
         </Link>
         {!isSpot ? (
           <div style={navBtnStyle(false)} onClick={() => navigate("/spot")}>
