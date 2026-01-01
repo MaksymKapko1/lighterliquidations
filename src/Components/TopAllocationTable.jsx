@@ -1,6 +1,12 @@
 import React, { useMemo, useState } from "react";
 import { Table, ConfigProvider } from "antd";
-import { FireOutlined, LinkOutlined, TrophyOutlined } from "@ant-design/icons";
+import {
+  FireOutlined,
+  LinkOutlined,
+  RubyOutlined,
+  TrophyOutlined,
+  RubyOutlined,
+} from "@ant-design/icons";
 
 export const TopAllocationsTable = ({ data, isLoading, onUserClick }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -73,7 +79,7 @@ export const TopAllocationsTable = ({ data, isLoading, onUserClick }) => {
             style={{ ...styles.amountCell, cursor: "pointer" }}
             onClick={() => onUserClick && onUserClick(record.user_id)}
           >
-            <FireOutlined style={{ color: "#2ea043", fontSize: "14px" }} />
+            <RubyOutlined style={{ color: "#2ea043", fontSize: "14px" }} />
             <span style={styles.amountText}>
               {Number(amount).toLocaleString()} LIT
             </span>
