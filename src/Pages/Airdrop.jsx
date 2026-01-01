@@ -1,5 +1,5 @@
 import { AppHeader } from "../Components/AppHeader";
-import { SearchOutlined } from "@ant-design/icons";
+import { SearchOutlined, UserOutlined } from "@ant-design/icons";
 import { Select } from "antd";
 import { AirdropSearch } from "../Components/AirdropSearch";
 import { useSocketConnection } from "../hooks/useSocketConnection";
@@ -94,13 +94,24 @@ export const Airdrop = () => {
               <h3 className="allocation-title">ALLOCATION FOUND</h3>
             </div>
 
-            {/* Детали */}
             <div className="allocation-details">
-              {/* --- СТРОКА 1: ДАННЫЕ ИЗ БАЗЫ (Сколько дали дропа) --- */}
+              <div className="detail-row">
+                <span className="detail-label">ACCOUNT INDEX</span>
+                <div className="amount-value-container">
+                  <UserOutlined
+                    style={{ color: "#e6edf3", fontSize: "18px" }}
+                  />
+                  <span
+                    className="mono-text"
+                    style={{ fontSize: "18px", fontWeight: "bold" }}
+                  >
+                    {Number(userData.user_id).toLocaleString()}
+                  </span>
+                </div>
+              </div>
               <div className="detail-row">
                 <span className="detail-label">AIRDROP RECEIVED</span>
                 <div className="amount-value-container">
-                  {/* Иконка Огонька для дропа */}
                   <RubyOutlined
                     style={{ color: "#e6edf3", fontSize: "18px" }}
                   />
@@ -114,11 +125,9 @@ export const Airdrop = () => {
                 </div>
               </div>
 
-              {/* --- СТРОКА 2: ДАННЫЕ ИЗ API (Сколько сейчас на кошельке) --- */}
               <div className="detail-row">
                 <span className="detail-label">CURRENT BALANCE</span>
                 <div className="amount-value-container">
-                  {/* Иконка Кошелька для баланса */}
                   <WalletOutlined
                     style={{ color: "#58a6ff", fontSize: "18px" }}
                   />
@@ -130,20 +139,17 @@ export const Airdrop = () => {
                       color: "#58a6ff",
                     }}
                   >
-                    {/* current_balance прилетел из запроса к Elliot API */}
                     {Number(userData.current_balance || 0).toLocaleString()} LIT
                   </span>
                 </div>
               </div>
 
-              {/* --- СТРОКА 3: РАЗНИЦА (Продал или купил?) --- */}
               <div className="detail-row">
                 <span className="detail-label">CHANGE</span>
                 <div className="amount-value-container">
                   <span
                     className="amount-text-large"
                     style={{
-                      // Зеленый если баланс больше или равен дропу, Красный если меньше
                       color:
                         userData.difference >= -0.01 ? "#2ea043" : "#da3633",
                       fontSize: "20px",
@@ -155,7 +161,6 @@ export const Airdrop = () => {
                 </div>
               </div>
 
-              {/* Ссылка на транзакцию или Адрес */}
               <div className="detail-row">
                 <span className="detail-label">TX HASH</span>
                 {userData.tx_hash ? (

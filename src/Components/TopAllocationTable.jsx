@@ -1,10 +1,10 @@
 import React, { useMemo, useState } from "react";
 import { Table, ConfigProvider } from "antd";
 import {
-  FireOutlined,
   LinkOutlined,
   RubyOutlined,
   TrophyOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 
 export const TopAllocationsTable = ({ data, isLoading, onUserClick }) => {
@@ -54,19 +54,22 @@ export const TopAllocationsTable = ({ data, isLoading, onUserClick }) => {
         },
       },
       {
-        title: "USER ID",
+        title: "ACCOUNT INDEX",
         dataIndex: "user_id",
         width: 120,
         render: (text) => (
-          <span
-            onClick={() => onUserClick && onUserClick(text)}
-            style={{
-              cursor: "pointer",
-              fontWeight: "bold",
-            }}
-          >
-            {text}
-          </span>
+          <div>
+            <UserOutlined style={{ color: "#ffffffff", fontSize: "14px" }} />
+            <span
+              onClick={() => onUserClick && onUserClick(text)}
+              style={{
+                cursor: "pointer",
+                fontWeight: "bold",
+              }}
+            >
+              {text}
+            </span>
+          </div>
         ),
       },
       {
