@@ -5,7 +5,6 @@ import {
   LinkOutlined,
   RubyOutlined,
   TrophyOutlined,
-  RubyOutlined,
 } from "@ant-design/icons";
 
 export const TopAllocationsTable = ({ data, isLoading, onUserClick }) => {
