@@ -1,0 +1,147 @@
+/* Основной контейнер страницы */
+.airdrop-page-container {
+  padding: 30px 5%;
+  min-height: calc(100vh - 64px); /* Высота минус хедер */
+  background: #0d1117; /* Темный фон как везде */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Центрируем все содержимое по горизонтали */
+}
+
+.airdrop-header {
+  margin-bottom: 40px;
+  max-width: 1000px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.airdrop-header > * {
+  width: 100%;
+}
+
+/* --- НОВЫЕ СТИЛИ ДЛЯ КАРТОЧКИ РЕЗУЛЬТАТА (Как у таблицы) --- */
+
+.allocation-result-container {
+  /* Те же стили контейнера, что и у таблицы */
+  background: rgba(22, 27, 34, 0.7);
+  border-radius: 20px;
+  border: 1px solid rgba(48, 54, 61, 0.4);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+
+  /* Размеры и отступы */
+  width: 100%;
+  max-width: 1000px; /* Ограничиваем ширину как у таблицы */
+  margin-bottom: 30px; /* Отступ до таблицы */
+  animation: fadeIn 0.5s ease;
+}
+
+/* Заголовок карточки (как у таблицы) */
+.allocation-header {
+  padding: 20px 30px;
+  border-bottom: 1px solid rgba(48, 54, 61, 0.4);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(13, 17, 23, 0.3);
+}
+
+.live-indicator-success {
+  width: 8px;
+  height: 8px;
+  background: #2ea043; /* Зеленый цвет успеха */
+  border-radius: 50%;
+  box-shadow: 0 0 8px #2ea043;
+}
+
+.allocation-title {
+  margin: 0;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* Содержимое карточки */
+.allocation-details {
+  padding: 20px 30px;
+}
+
+/* Одна строка с данными */
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(48, 54, 61, 0.2);
+}
+
+.detail-row:last-child {
+  border-bottom: none;
+}
+
+/* Лейбл слева (как заголовки в таблице) */
+.detail-label {
+  color: #8b949e;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* Значения справа */
+.mono-text {
+  color: #e6edf3;
+  font-family: "Roboto Mono", monospace;
+  font-size: 14px;
+}
+
+/* Специальный стиль для суммы с иконкой */
+.amount-value-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.amount-text-large {
+  color: #2ea043; /* Зеленый */
+  font-family: "Roboto Mono", monospace;
+  font-weight: 700;
+  font-size: 24px; /* Крупнее чем в таблице */
+  text-shadow: 0 0 15px rgba(46, 160, 67, 0.3);
+}
+
+/* Стиль для ссылки на транзакцию */
+.tx-link {
+  color: #58a6ff;
+  font-family: "Roboto Mono", monospace;
+  background: rgba(56, 139, 253, 0.1);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+}
+
+.tx-link:hover {
+  background: rgba(56, 139, 253, 0.2);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

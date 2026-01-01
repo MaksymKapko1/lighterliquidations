@@ -7,6 +7,7 @@ import { Snowfall } from "react-snowfall";
 import { Link } from "react-router-dom";
 import { SpotPage } from "./Pages/SpotPage";
 import "./App.css";
+import { Airdrop } from "./Pages/Airdrop";
 function App() {
   return (
     <>
@@ -25,6 +26,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/liquidations/:coin" element={<CoinLiquidationPage />} />
         <Route path="/spot" element={<SpotPage />} />
+        <Route path="/airdrop" element={<Airdrop />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </>

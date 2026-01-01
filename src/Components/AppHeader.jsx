@@ -5,6 +5,7 @@ import {
   FireOutlined,
   HomeOutlined,
   LineChartOutlined,
+  GiftOutlined,
 } from "@ant-design/icons";
 
 const { Header } = Layout;
@@ -48,6 +49,7 @@ export const AppHeader = () => {
   const navigate = useNavigate();
 
   const isSpot = location.pathname === "/spot";
+  const isAirdrop = location.pathname === "/airdrop";
 
   const navBtnStyle = (active) => ({
     padding: "8px 16px",
@@ -117,6 +119,15 @@ export const AppHeader = () => {
         {!isSpot ? (
           <div style={navBtnStyle(false)} onClick={() => navigate("/spot")}>
             <LineChartOutlined /> Spot Market
+          </div>
+        ) : (
+          <div style={navBtnStyle(false)} onClick={() => navigate("/")}>
+            <FireOutlined /> Liquidations
+          </div>
+        )}
+        {!isAirdrop ? (
+          <div style={navBtnStyle(false)} onClick={() => navigate("/airdrop")}>
+            <GiftOutlined /> Airdrop Statistics
           </div>
         ) : (
           <div style={navBtnStyle(false)} onClick={() => navigate("/")}>

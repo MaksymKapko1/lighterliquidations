@@ -1,0 +1,63 @@
+/* Контейнер для ограничения ширины */
+.neon-search-container {
+  width: 100%;
+  max-width: 100%;
+  margin-top: 5px;
+}
+
+/* Основная обертка поиска */
+.neon-search-box {
+  display: flex;
+  align-items: center;
+  background: rgba(22, 27, 34, 0.7); /* Темный полупрозрачный фон */
+  border: 1px solid #58a6ff; /* Твоя синяя рамка */
+  border-radius: 50px; /* Полное закругление */
+  padding: 0 18px;
+  height: 44px;
+  gap: 12px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px); /* Эффект матового стекла */
+  box-shadow: 0 0 10px rgba(88, 166, 255, 0.2); /* Легкое свечение */
+}
+
+/* Эффект при наведении или когда мы печатаем (фокус) */
+.neon-search-box:focus-within,
+.neon-search-box:hover {
+  border-color: #58a6ff;
+  box-shadow: 0 0 20px rgba(88, 166, 255, 0.5),
+    inset 0 0 8px rgba(88, 166, 255, 0.1);
+  transform: translateY(-1px); /* Легкий эффект приподнимания */
+}
+
+/* Стиль самого поля ввода */
+.neon-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 0;
+}
+
+/* Цвет плейсхолдера */
+.neon-input::placeholder {
+  color: #8b949e;
+  font-weight: 500;
+}
+
+/* Иконка лупы */
+.search-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+/* Иконка стрелочки */
+.arrow-icon {
+  color: #58a6ff;
+  font-size: 10px;
+  cursor: pointer;
+  user-select: none;
+}
