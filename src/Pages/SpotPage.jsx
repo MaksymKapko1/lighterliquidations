@@ -12,6 +12,14 @@ export const SpotPage = () => {
   const { spotMarket, isReady } = useLiquidations();
 
   const isLoading = !isReady || !spotMarket;
+
+  const formatter = (number) => {
+    if (!number) return 0;
+    return Number(number).toLocaleString("en-US", {
+      notation: "compact",
+      maximumFractionDigits: 2,
+    });
+  };
   console.log("Spot Data from Hook:", spotMarket);
   return (
     <div style={{ minHeight: "100vh", paddingBottom: "40px" }}>
@@ -30,7 +38,7 @@ export const SpotPage = () => {
                   price={market.price}
                   dailyHigh={market.dailyHigh}
                   dailyLow={market.dailyLow}
-                  dailyUsdVolume={market.dailyUsdVolume}
+                  dailyUsdVolume={formatter(market.dailyUsdVolume)}
                 />
               </Col>
             ))}
