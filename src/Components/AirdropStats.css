@@ -156,13 +156,23 @@
   background-color: #0f172a;
   border: 1px solid #1e293b;
   border-radius: 12px;
-  overflow: hidden;
+
+  /* 👇 1. РАЗРЕШАЕМ СКРОЛЛ ВПРАВО 👇 */
+  overflow-x: auto;
+
+  /* Для плавной прокрутки на iPhone (iOS) */
+  -webkit-overflow-scrolling: touch;
 }
 
 .tiers-table {
   width: 100%;
   border-collapse: collapse;
   text-align: left;
+
+  /* 👇 2. ЗАДАЕМ МИН. ШИРИНУ 👇 */
+  /* Это заставит таблицу быть широкой (600px), даже на экране телефона (350px).
+     Так появится скролл. */
+  min-width: 600px;
 }
 
 .tiers-table th {
