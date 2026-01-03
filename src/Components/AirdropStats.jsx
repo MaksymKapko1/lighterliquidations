@@ -1,8 +1,26 @@
 import React from "react";
 import "./AirdropStats.css"; // Импортируем стили
+import { Spin } from "antd";
 
 export const AirdropStats = ({ stats }) => {
-  if (!stats) return null;
+  if (!stats) {
+    return (
+      <div
+        className="stats-container"
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "200px", // Чтобы блок не скакал по высоте
+          background: "#0f172a",
+          borderRadius: "12px",
+          border: "1px solid #1e293b",
+        }}
+      >
+        <Spin size="large" tip="Loading analytics..." />
+      </div>
+    );
+  }
 
   const { global, tiers, progress } = stats;
 
