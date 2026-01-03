@@ -444,6 +444,11 @@ export const MARKET_METADATA = {
     title: "AAVE",
     icon: "https://s2.coinmarketcap.com/static/img/coins/64x64/7278.png",
   },
+  LIT: {
+    sector: "Crypto",
+    title: "LIT",
+    icon: "https://app.lighter.xyz/favicon-32x32.png",
+  }
   UNI: {
     sector: "Crypto",
     title: "UNI",
