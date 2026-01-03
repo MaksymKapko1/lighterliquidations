@@ -14,6 +14,7 @@ import {
 } from "@ant-design/icons";
 import "./AirdropPage.css";
 
+import { AirdropStats } from "../Components/AirdropStats";
 import { useNavigate } from "react-router-dom";
 
 const SOCKET_URL = import.meta.env.VITE_WS_URL || "ws://localhost:8765";
@@ -24,6 +25,7 @@ export const Airdrop = () => {
   const [topList, setTopList] = useState([]);
   const [tableLoading, setTableLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
+  const [airdropStats, setAirdropStats] = useState(null);
 
   const performSearch = (query) => {
     if (!query) return;
@@ -53,6 +55,9 @@ export const Airdrop = () => {
         setTopList(msg.data);
         setTableLoading(false);
       }
+      if (msg.type === "airdrop_stats_update") {
+        setAirdropStats(msg.data);
+      }
     } catch (e) {
       console.error("Error parsing message:", e);
     }
@@ -76,6 +81,9 @@ export const Airdrop = () => {
     <>
       <AppHeader />
       <div className="airdrop-page-container">
+        <div style={{ marginTop: "20px" }}>
+          <AirdropStats stats={airdropStats} />
+        </div>
         <header className="airdrop-header">
           <AirdropSearch
             onSearch={performSearch}
