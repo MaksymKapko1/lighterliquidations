@@ -448,7 +448,7 @@ export const MARKET_METADATA = {
     sector: "Crypto",
     title: "LIT",
     icon: "https://app.lighter.xyz/favicon-32x32.png",
-  }
+  },
   UNI: {
     sector: "Crypto",
     title: "UNI",
