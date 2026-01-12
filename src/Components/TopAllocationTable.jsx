@@ -73,6 +73,25 @@ export const TopAllocationsTable = ({ data, isLoading, onUserClick }) => {
         ),
       },
       {
+        title: "CHANGE",
+        dataIndex: "user_id",
+        width: 120,
+        render: (text) => (
+          <div>
+            <UserOutlined style={{ color: "#ffffffff", fontSize: "14px" }} />
+            <span
+              onClick={() => onUserClick && onUserClick(text)}
+              style={{
+                cursor: "pointer",
+                fontWeight: "bold",
+              }}
+            >
+              {text}
+            </span>
+          </div>
+        ),
+      },
+      {
         title: "AMOUNT",
         dataIndex: "amount",
         align: "right",

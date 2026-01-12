@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { Col, Row, Card, Skeleton } from "antd"; // ✅ ДОБАВИЛ: Card, Skeleton
+import { Col, Row, Card, Skeleton } from "antd";
 import { CoinCard } from "../Components/CoinCard";
 import { useLiquidations } from "../hooks/useLiquidations";
 import { AppHeader } from "../Components/AppHeader";

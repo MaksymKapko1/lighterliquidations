@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { SpotPage } from "./Pages/SpotPage";
 import "./App.css";
 import { Airdrop } from "./Pages/Airdrop";
+import { LitTradesPage } from "./Pages/LitTradesPage";
 function App() {
   return (
     <>
@@ -27,6 +28,7 @@ function App() {
         <Route path="/liquidations/:coin" element={<CoinLiquidationPage />} />
         <Route path="/spot" element={<SpotPage />} />
         <Route path="/airdrop" element={<Airdrop />} />
+        <Route path="/littrades" element={<LitTradesPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </>

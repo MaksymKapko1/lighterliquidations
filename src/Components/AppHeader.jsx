@@ -6,6 +6,9 @@ import {
   HomeOutlined,
   LineChartOutlined,
   GiftOutlined,
+  BarChartOutlined,
+  DotChartOutlined,
+  AreaChartOutlined,
 } from "@ant-design/icons";
 import "./AppHeader.css";
 
@@ -51,6 +54,7 @@ export const AppHeader = () => {
 
   const isSpot = location.pathname === "/spot";
   const isAirdrop = location.pathname === "/airdrop";
+  const isLitTrade = location.pathname === "/littrades";
 
   const navBtnStyle = (active) => ({
     padding: "8px 16px",
@@ -97,6 +101,19 @@ export const AppHeader = () => {
         {!isAirdrop ? (
           <div style={navBtnStyle(false)} onClick={() => navigate("/airdrop")}>
             <GiftOutlined /> Airdrop Statistics
+          </div>
+        ) : (
+          <div style={navBtnStyle(false)} onClick={() => navigate("/")}>
+            <FireOutlined /> Liquidations
+          </div>
+        )}
+
+        {!isLitTrade ? (
+          <div
+            style={navBtnStyle(false)}
+            onClick={() => navigate("/littrades")}
+          >
+            <AreaChartOutlined /> $LIT Trades
           </div>
         ) : (
           <div style={navBtnStyle(false)} onClick={() => navigate("/")}>
