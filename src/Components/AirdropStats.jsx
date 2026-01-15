@@ -35,12 +35,13 @@ export const AirdropStats = ({ stats }) => {
           <span
             style={{
               opacity: 0.5,
-              fontSize: "14px",
+              fontSize: "16px",
               fontWeight: "normal",
-              marginLeft: "8px", // Небольшой отступ
+              marginLeft: "8px",
+              color: "#ADD8E6", // Небольшой отступ
             }}
           >
-            (Includes only Top 2000 accounts)
+            (Includes only Top 2000 accounts & $LIT staking )
             {/* 155026023.413999999789666617289185523986816406250 */}
           </span>
           <div className="live-dot" title="Live Updates"></div>
@@ -101,6 +102,7 @@ export const AirdropStats = ({ stats }) => {
               <th>Users</th>
               <th>Total Dropped</th>
               <th>Current Holdings</th>
+              <th>Staked $LIT</th>
               <th style={{ textAlign: "right" }}>Retention %</th>
             </tr>
           </thead>
@@ -116,6 +118,9 @@ export const AirdropStats = ({ stats }) => {
                 </td>
                 <td style={{ fontFamily: "monospace" }}>
                   {formatNum(tier.holding)}
+                </td>
+                <td style={{ fontFamily: "monospace" }}>
+                  {formatNum(tier.staked)}
                 </td>
                 <td style={{ textAlign: "right" }}>
                   <span
