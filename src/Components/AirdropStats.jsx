@@ -116,7 +116,7 @@ export const AirdropStats = ({ stats }) => {
                 <td style={{ fontFamily: "monospace" }}>
                   {formatNum(tier.dropped)}
                 </td>
-                <td style={{ fontFamily: "monospace" }}>
+                <td style={{ fontFamily: "monospace", color: "red" }}>
                   {formatNum(tier.holding)}
                 </td>
                 <td style={{ fontFamily: "monospace" }}>
