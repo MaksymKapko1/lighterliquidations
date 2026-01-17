@@ -72,25 +72,7 @@ export const TopAllocationsTable = ({ data, isLoading, onUserClick }) => {
           </div>
         ),
       },
-      {
-        title: "CHANGE",
-        dataIndex: "user_id",
-        width: 120,
-        render: (text) => (
-          <div>
-            <UserOutlined style={{ color: "#ffffffff", fontSize: "14px" }} />
-            <span
-              onClick={() => onUserClick && onUserClick(text)}
-              style={{
-                cursor: "pointer",
-                fontWeight: "bold",
-              }}
-            >
-              {text}
-            </span>
-          </div>
-        ),
-      },
+
       {
         title: "AMOUNT",
         dataIndex: "amount",
@@ -127,7 +109,7 @@ export const TopAllocationsTable = ({ data, isLoading, onUserClick }) => {
           ),
       },
     ],
-    [currentPage, onUserClick]
+    [currentPage, onUserClick],
   );
   return (
     <div style={styles.tableContainer}>
