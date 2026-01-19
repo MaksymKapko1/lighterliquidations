@@ -41,7 +41,7 @@ export const AirdropStats = ({ stats }) => {
               color: "#ADD8E6", // Небольшой отступ
             }}
           >
-            (Includes only Top 2000 accounts & $LIT staking )
+            (Includes only Top 10000 accounts & $LIT staking )
             {/* 155026023.413999999789666617289185523986816406250 */}
           </span>
           <div className="live-dot" title="Live Updates"></div>
@@ -128,8 +128,8 @@ export const AirdropStats = ({ stats }) => {
                       tier.retention_pct > 80
                         ? "badge-high"
                         : tier.retention_pct > 50
-                        ? "badge-mid"
-                        : "badge-low"
+                          ? "badge-mid"
+                          : "badge-low"
                     }`}
                   >
                     {tier.retention_pct}%
