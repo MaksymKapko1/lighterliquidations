@@ -22,7 +22,7 @@ export const AirdropStats = ({ stats }) => {
     );
   }
 
-  const { global, tiers, progress } = stats;
+  const { global, tiers, progress, totals } = stats;
 
   const formatNum = (num) => new Intl.NumberFormat("en-US").format(num);
 
@@ -138,6 +138,30 @@ export const AirdropStats = ({ stats }) => {
               </tr>
             ))}
           </tbody>
+          <tfoot>
+            <tr
+              style={{
+                background: "rgba(255, 255, 255, 0.05)",
+                fontWeight: "bold",
+                borderTop: "2px solid #334155",
+              }}
+            >
+              <td style={{ color: "#fbbf24", textTransform: "uppercase" }}>
+                TOTAL
+              </td>
+              <td style={{ color: "#fff" }}>{totals.users}</td>
+              <td style={{ fontFamily: "monospace", color: "#fff" }}>
+                {formatNum(totals.dropped)}
+              </td>
+              <td style={{ fontFamily: "monospace", color: "violet" }}>
+                {formatNum(totals.current_holdings)}
+              </td>
+              <td style={{ fontFamily: "monospace", color: "#fff" }}>
+                {formatNum(totals.staked)}
+              </td>
+              <td style={{ fontFamily: "monospace", color: "#fff" }}></td>
+            </tr>
+          </tfoot>
         </table>
       </div>
     </div>
