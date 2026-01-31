@@ -41,7 +41,7 @@ export const AirdropStats = ({ stats }) => {
               color: "#ADD8E6", // Небольшой отступ
             }}
           >
-            (Includes only Top 10000 accounts & $LIT staking )
+            (Includes only Top 20000 accounts & $LIT staking )
             {/* 155026023.413999999789666617289185523986816406250 */}
           </span>
           <div className="live-dot" title="Live Updates"></div>
