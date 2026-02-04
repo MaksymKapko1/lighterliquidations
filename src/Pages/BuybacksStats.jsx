@@ -93,7 +93,7 @@ export const BuybacksStats = () => {
       <div className="buybacks-page">
         <div className="buybacks-container">
           <div className="page-header">
-            <h2>$LIT Fee Collector & Buybacks</h2>
+            <h2>$LIT Buybacks Stats</h2>
           </div>
 
           {/* --- КАРТОЧКИ (ОБНОВЛЕННЫЕ) --- */}
