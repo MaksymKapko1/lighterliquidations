@@ -1,21 +1,13 @@
 import { AppHeader } from "../Components/AppHeader";
-import { SearchOutlined, UserOutlined } from "@ant-design/icons";
-import { Select } from "antd";
+import { UserOutlined } from "@ant-design/icons";
 import { AirdropSearch } from "../Components/AirdropSearch";
 import { useSocketConnection } from "../hooks/useSocketConnection";
 import { useCallback, useState, useEffect } from "react";
 import { TopAllocationsTable } from "../Components/TopAllocationTable";
-import {
-  FireOutlined,
-  LinkOutlined,
-  WalletOutlined,
-  GifOutlined,
-  RubyOutlined,
-} from "@ant-design/icons";
+import { LinkOutlined, WalletOutlined, RubyOutlined } from "@ant-design/icons";
 import "./AirdropPage.css";
 
 import { AirdropStats } from "../Components/AirdropStats";
-import { useNavigate } from "react-router-dom";
 
 const SOCKET_URL = import.meta.env.VITE_WS_URL || "ws://localhost:8765";
 

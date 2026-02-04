@@ -3,11 +3,8 @@ import { Layout, Button } from "antd";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   FireOutlined,
-  HomeOutlined,
   LineChartOutlined,
   GiftOutlined,
-  BarChartOutlined,
-  DotChartOutlined,
   AreaChartOutlined,
 } from "@ant-design/icons";
 import "./AppHeader.css";
@@ -55,6 +52,7 @@ export const AppHeader = () => {
   const isSpot = location.pathname === "/spot";
   const isAirdrop = location.pathname === "/airdrop";
   const isLitTrade = location.pathname === "/littrades";
+  const isBuybackStats = location.pathname === "/buybacks";
 
   const navBtnStyle = (active) => ({
     padding: "8px 16px",
@@ -120,6 +118,15 @@ export const AppHeader = () => {
             <FireOutlined /> Liquidations
           </div>
         )}
+        {/* {!isBuybackStats ? (
+          <div style={navBtnStyle(false)} onClick={() => navigate("/buybacks")}>
+            <GiftOutlined /> Buybacks
+          </div>
+        ) : (
+          <div style={navBtnStyle(false)} onClick={() => navigate("/")}>
+            <FireOutlined /> Liquidations
+          </div>
+        )} */}
       </div>
     </Header>
   );
