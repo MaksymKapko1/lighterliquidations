@@ -1,13 +1,13 @@
 /* --- AppHeader.css --- */
 
-/* 1. Базовые стили (Десктоп) */
+/* 1. Базовые стили */
 .app-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(13, 17, 23, 0.8); /* Чуть темнее фон для контраста */
   backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(48, 54, 61, 0.4);
   padding: 0 20px;
   height: 64px;
   position: sticky;
@@ -16,21 +16,21 @@
   transition: all 0.3s ease;
 }
 
-/* Контейнер для Лого + Кнопок */
 .header-inner {
   display: flex;
   align-items: center;
-  gap: 20px;
+  justify-content: space-between; /* Разносим лого и меню по краям */
   width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
-/* Стили для логотипа */
+/* Логотип */
 .logo-link {
   text-decoration: none;
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-right: auto; /* Отодвигает кнопки вправо на десктопе (опционально) */
 }
 
 .logo-text {
@@ -39,39 +39,34 @@
   font-weight: bold;
   font-family: monospace;
   letter-spacing: 1px;
-  white-space: nowrap; /* Чтобы текст логотипа не переносился */
+  white-space: nowrap;
 }
 
-/* Группа кнопок навигации */
-.nav-group {
+/* Группа кнопок ДЕСКТОП */
+.desktop-nav-group {
   display: flex;
+  align-items: center;
   gap: 10px;
 }
 
-/* Стиль одной кнопки */
-.nav-btn {
-  padding: 8px 16px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 14px;
+/* Кнопка бургера (по умолчанию скрыта) */
+.mobile-burger-btn {
+  display: none;
+}
+
+/* Контейнер ссылок внутри мобильного меню */
+.mobile-nav-container {
   display: flex;
-  align-items: center;
-  gap: 8px;
-  transition: all 0.3s ease;
-  white-space: nowrap; /* Текст кнопок в одну строку */
+  flex-direction: column;
+  gap: 15px;
 }
 
-/* Состояния кнопки (Active/Inactive) */
-.nav-btn.inactive {
-  background: transparent;
-  color: #8b949e;
-  border: 1px solid transparent;
+/* Стилизация заголовка Drawer (Ant Design Override) */
+.ant-drawer-title {
+  color: #e6edf3 !important;
 }
-
-.nav-btn.inactive:hover {
-  background: rgba(255, 255, 255, 0.05);
-  color: #e6edf3;
+.ant-drawer-close {
+  color: #8b949e !important;
 }
 
 /* =========================================
@@ -79,31 +74,22 @@
    ========================================= */
 @media (max-width: 768px) {
   .app-header {
-    height: auto !important; /* Разрешаем хедеру растягиваться */
-    padding: 15px 16px; /* Отступы сверху/снизу */
-    flex-direction: column; /* ВЕРТИКАЛЬНОЕ выравнивание */
+    padding: 0 15px;
   }
 
-  .header-inner {
-    flex-direction: column; /* Элементы внутри тоже вертикально */
-    gap: 15px;
-    width: 100%;
+  /* Скрываем обычные кнопки */
+  .desktop-nav-group {
+    display: none;
   }
 
-  .logo-link {
-    margin-right: 0; /* Убираем сдвиг */
-    justify-content: center; /* Центрируем лого */
-    width: 100%;
+  /* Показываем бургер */
+  .mobile-burger-btn {
+    display: block;
+    margin-left: auto; /* Прижимаем вправо */
   }
 
-  .nav-group {
-    width: 100%;
-    justify-content: center; /* Центрируем кнопки */
-    flex-wrap: wrap; /* Если кнопок много, переносим на новую строку */
-  }
-
-  .nav-btn {
-    font-size: 13px; /* Чуть меньше шрифт кнопок */
-    padding: 8px 12px;
+  /* Уменьшаем лого на совсем мелких экранах, если нужно */
+  .logo-text {
+    font-size: 16px;
   }
 }
