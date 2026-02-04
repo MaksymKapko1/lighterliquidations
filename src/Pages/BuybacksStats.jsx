@@ -12,10 +12,9 @@ import {
   Cell,
 } from "recharts";
 import {
-  DatabaseOutlined,
-  FireOutlined,
-  BarChartOutlined,
-  HistoryOutlined,
+  WalletOutlined,
+  DollarOutlined,
+  LineChartOutlined,
 } from "@ant-design/icons";
 import "./BuybacksStats.css";
 
@@ -23,17 +22,20 @@ const SOCKET_URL = import.meta.env.VITE_WS_URL || "ws://localhost:8765";
 
 export const BuybacksStats = () => {
   const [dailyStats, setDailyStats] = useState([]);
+  const [balances, setBalances] = useState({ lit: 0, usdc: 0 });
   const [loading, setLoading] = useState(true);
 
-  // 1. Слушаем сокет
+  // Состояние для свитчера времени (30 дней или Всё время)
+  const [timeRange, setTimeRange] = useState("30d");
+
   const handleMessage = useCallback((event) => {
     try {
       const msg = JSON.parse(event.data);
-
-      // Ловим только наш тип данных (buybacks_update)
       if (msg.type === "buybacks_update") {
-        // Данные приходят отсортированные "Новые сверху" (для таблицы ок)
-        setDailyStats(msg.data);
+        console.log("🔥 RECEIVED DATA:", msg.data);
+        // Теперь мы ждем структуру { stats: [], balances: {} }
+        if (msg.data.stats) setDailyStats(msg.data.stats);
+        if (msg.data.balances) setBalances(msg.data.balances);
         setLoading(false);
       }
     } catch (e) {
@@ -41,24 +43,28 @@ export const BuybacksStats = () => {
     }
   }, []);
 
-  // Подключаемся
   useSocketConnection(SOCKET_URL, handleMessage);
 
-  // 2. Считаем общие суммы (мемоизация, чтобы не пересчитывать при каждом рендере)
-  const totalVolume = useMemo(() => {
-    return dailyStats.reduce((acc, curr) => acc + curr.volume, 0);
-  }, [dailyStats]);
-
-  const totalTrades = useMemo(() => {
-    return dailyStats.reduce((acc, curr) => acc + curr.count, 0);
-  }, [dailyStats]);
-
-  // Данные для графика (нам нужен хронологический порядок: старые -> новые)
+  // 1. Фильтруем данные для графика в зависимости от свитчера
   const chartData = useMemo(() => {
-    return [...dailyStats].reverse();
+    // Копируем и реверсируем (чтобы шло слева направо по времени)
+    let data = [...dailyStats].reverse();
+
+    if (timeRange === "30d") {
+      // Берем последние 30 элементов (они в конце массива после reverse)
+      data = data.slice(-30);
+    }
+    return data;
+  }, [dailyStats, timeRange]);
+
+  // 2. Считаем средний дневной байбек (Card 3)
+  const avgDailyBuyback = useMemo(() => {
+    if (dailyStats.length === 0) return 0;
+    const totalVol = dailyStats.reduce((acc, curr) => acc + curr.volume, 0);
+    return totalVol / dailyStats.length;
   }, [dailyStats]);
 
-  // Кастомный тултип при наведении на график
+  // Кастомный тултип
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
@@ -86,69 +92,104 @@ export const BuybacksStats = () => {
       <AppHeader />
       <div className="buybacks-page">
         <div className="buybacks-container">
-          {/* Заголовок страницы */}
           <div className="page-header">
-            <h2>
-              <FireOutlined style={{ color: "#ff4d4f" }} /> $LIT Buyback
-              Statistics
-            </h2>
-            <p className="subtitle">
-              Tracking on-chain buybacks from Fee Collector & MM accounts
-            </p>
+            <h2>$LIT Fee Collector & Buybacks</h2>
           </div>
 
-          {/* Карточки со статистикой */}
+          {/* --- КАРТОЧКИ (ОБНОВЛЕННЫЕ) --- */}
           <div className="stats-grid">
+            {/* Карточка 1: Баланс LIT (из API) */}
             <div className="stat-card">
               <div className="stat-icon-wrapper green">
-                <DatabaseOutlined />
+                <WalletOutlined />
               </div>
               <div className="stat-content">
-                <span className="stat-label">Total Volume Bought</span>
+                <span className="stat-label">LIT Treasury Balance</span>
+                {/* Берем balances.lit.total или available - как тебе важнее */}
                 <span className="stat-value text-green">
+                  {balances.lit?.total
+                    ? balances.lit.total.toLocaleString(undefined, {
+                        maximumFractionDigits: 0,
+                      })
+                    : "0"}{" "}
+                  LIT
+                </span>
+              </div>
+            </div>
+
+            {/* Карточка 2: Баланс USDC (из API) */}
+            <div className="stat-card">
+              <div className="stat-icon-wrapper blue">
+                <DollarOutlined />
+              </div>
+              <div className="stat-content">
+                <span className="stat-label">USDC Ammunition (Free)</span>
+
+                {/* 1. Показываем СВОБОДНЫЙ объем (Total - Locked) */}
+                <span className="stat-value text-blue">
                   $
-                  {totalVolume.toLocaleString(undefined, {
+                  {balances.usdc?.available
+                    ? balances.usdc.available.toLocaleString(undefined, {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0,
+                      })
+                    : "0"}
+                </span>
+
+                {/* 2. Мелко показываем Locked (в ордерах) */}
+                <span className="stat-subtext">
+                  In Orders (Locked): $
+                  {balances.usdc?.locked
+                    ? balances.usdc.locked.toLocaleString(undefined, {
+                        maximumFractionDigits: 0,
+                      })
+                    : "0"}
+                </span>
+              </div>
+            </div>
+
+            {/* Карточка 3: Средний откуп в день (Расчетный) */}
+            <div className="stat-card">
+              <div className="stat-icon-wrapper orange">
+                <LineChartOutlined />
+              </div>
+              <div className="stat-content">
+                <span className="stat-label">Avg. Daily Buyback</span>
+                <span className="stat-value">
+                  $
+                  {avgDailyBuyback.toLocaleString(undefined, {
                     maximumFractionDigits: 0,
                   })}
                 </span>
               </div>
             </div>
-
-            <div className="stat-card">
-              <div className="stat-icon-wrapper blue">
-                <HistoryOutlined />
-              </div>
-              <div className="stat-content">
-                <span className="stat-label">Total Executed Trades</span>
-                <span className="stat-value">
-                  {totalTrades.toLocaleString()}
-                </span>
-              </div>
-            </div>
-
-            {/* Можно добавить третью карточку, например "Last 24h Vol" если посчитать */}
-            <div className="stat-card">
-              <div className="stat-icon-wrapper orange">
-                <BarChartOutlined />
-              </div>
-              <div className="stat-content">
-                <span className="stat-label">Days Active</span>
-                <span className="stat-value">{dailyStats.length}</span>
-              </div>
-            </div>
           </div>
 
-          {/* Секция Графика */}
+          {/* --- ГРАФИК --- */}
           <div className="dashboard-section">
-            <div className="section-header">
+            <div className="section-header-row">
               <h3>Daily Buyback Volume</h3>
+
+              {/* Свитчер времени */}
+              <div className="time-switcher">
+                <button
+                  className={timeRange === "30d" ? "active" : ""}
+                  onClick={() => setTimeRange("30d")}
+                >
+                  30 Days
+                </button>
+                <button
+                  className={timeRange === "all" ? "active" : ""}
+                  onClick={() => setTimeRange("all")}
+                >
+                  All Time
+                </button>
+              </div>
             </div>
+
             <div className="chart-wrapper">
               <ResponsiveContainer width="100%" height={300}>
-                <BarChart
-                  data={chartData}
-                  margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
-                >
+                <BarChart data={chartData}>
                   <CartesianGrid
                     strokeDasharray="3 3"
                     stroke="#2b303b"
@@ -157,10 +198,6 @@ export const BuybacksStats = () => {
                   <XAxis
                     dataKey="date"
                     stroke="#8b949e"
-                    tick={{ fontSize: 12 }}
-                    tickLine={false}
-                    axisLine={false}
-                    dy={10}
                     tickFormatter={(tick) => {
                       const d = new Date(tick);
                       return `${d.getDate()}/${d.getMonth() + 1}`;
@@ -169,21 +206,18 @@ export const BuybacksStats = () => {
                   <YAxis
                     stroke="#8b949e"
                     tickFormatter={(val) => `$${(val / 1000).toFixed(0)}k`}
-                    tickLine={false}
-                    axisLine={false}
                   />
                   <Tooltip
                     content={<CustomTooltip />}
                     cursor={{ fill: "rgba(255,255,255,0.03)" }}
                   />
-                  <Bar dataKey="volume" radius={[4, 4, 0, 0]} maxBarSize={50}>
+                  <Bar dataKey="volume" radius={[4, 4, 0, 0]}>
                     {chartData.map((entry, index) => (
                       <Cell
                         key={`cell-${index}`}
                         fill={
                           index === chartData.length - 1 ? "#4caf50" : "#2ea043"
                         }
-                        fillOpacity={index === chartData.length - 1 ? 1 : 0.7}
                       />
                     ))}
                   </Bar>
@@ -192,26 +226,30 @@ export const BuybacksStats = () => {
             </div>
           </div>
 
-          {/* Секция Таблицы */}
+          {/* --- ТАБЛИЦА (Без изменений, только рендер) --- */}
           <div className="dashboard-section">
-            <div className="section-header">
-              <h3>Detailed Logs</h3>
-            </div>
+            {/* ... код таблицы такой же как был ... */}
             <div className="table-wrapper">
               <table className="custom-table">
                 <thead>
                   <tr>
-                    <th>Date</th>
-                    <th className="text-right">Volume (USD)</th>
-                    <th className="text-right">Trades Count</th>
-                    <th className="text-right">Avg. Trade Size</th>
+                    <th style={{ width: "20%" }}>Date</th>
+                    <th className="text-right" style={{ width: "30%" }}>
+                      Volume (USD)
+                    </th>
+                    <th className="text-right" style={{ width: "20%" }}>
+                      Trades Count
+                    </th>
+                    <th className="text-right" style={{ width: "30%" }}>
+                      Avg. Trade Size
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   {loading ? (
                     <tr>
                       <td colSpan="4" className="loading-cell">
-                        Connecting to data feed...
+                        Loading...
                       </td>
                     </tr>
                   ) : (
