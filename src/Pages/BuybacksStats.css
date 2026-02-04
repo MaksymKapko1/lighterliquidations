@@ -231,9 +231,30 @@
 
 /* --- Таблица --- */
 .buybacks-page .table-wrapper {
-  overflow-x: auto;
+  /* 👇 1. Ограничиваем высоту и включаем скролл */
+  max-height: 400px; /* Высота таблицы (можешь менять на 500px или 600px) */
+  overflow-y: auto; /* Вертикальный скролл */
+  overflow-x: auto; /* Горизонтальный скролл (если не влезает по ширине) */
+
   border-radius: 12px;
   border: 1px solid rgba(48, 54, 61, 0.4);
+
+  /* Красивый скроллбар для Chrome/Safari/Edge */
+  scrollbar-width: thin;
+  scrollbar-color: #30363d transparent;
+}
+
+/* Стилизация ползунка прокрутки */
+.buybacks-page .table-wrapper::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.buybacks-page .table-wrapper::-webkit-scrollbar-track {
+  background: transparent;
+}
+.buybacks-page .table-wrapper::-webkit-scrollbar-thumb {
+  background-color: #30363d;
+  border-radius: 3px;
 }
 
 .buybacks-page .custom-table {
@@ -242,15 +263,22 @@
 }
 
 .buybacks-page .custom-table th {
+  /* 👇 2. Приклеиваем шапку (Sticky Header) */
+  position: sticky;
+  top: 0;
+  z-index: 2; /* Чтобы шапка была выше контента */
+
   text-align: left;
   padding: 16px;
-  background-color: rgba(22, 27, 34, 0.9);
+  /* Важно: задать непрозрачный фон, иначе строки будут просвечивать под шапкой */
+  background-color: #161b22;
   color: #8b949e;
   font-weight: 700;
   font-size: 12px;
   text-transform: uppercase;
   border-bottom: 1px solid #30363d;
   white-space: nowrap;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Легкая тень под шапкой */
 }
 
 .buybacks-page .custom-table th.text-right {
@@ -294,7 +322,6 @@
   padding: 40px;
   color: #8b949e;
 }
-
 /* =========================================
    📱 МОБИЛЬНАЯ АДАПТАЦИЯ (Max-width 768px)
    ========================================= */
