@@ -123,7 +123,7 @@ export const BuybacksStats = () => {
                 <DollarOutlined />
               </div>
               <div className="stat-content">
-                <span className="stat-label">USDC Ammunition (Free)</span>
+                <span className="stat-label">USDC Balance (Free)</span>
 
                 {/* 1. Показываем СВОБОДНЫЙ объем (Total - Locked) */}
                 <span className="stat-value text-blue">
@@ -138,7 +138,7 @@ export const BuybacksStats = () => {
 
                 {/* 2. Мелко показываем Locked (в ордерах) */}
                 <span className="stat-subtext">
-                  In Orders (Locked): $
+                  (Locked): $
                   {balances.usdc?.locked
                     ? balances.usdc.locked.toLocaleString(undefined, {
                         maximumFractionDigits: 0,

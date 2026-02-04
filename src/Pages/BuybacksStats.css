@@ -1,0 +1,267 @@
+/* =========================================
+   ИЗОЛИРОВАННЫЕ СТИЛИ ДЛЯ BUYBACKS PAGE
+   Все начинается с .buybacks-page
+   ========================================= */
+
+.buybacks-page {
+  background-color: #0d1117;
+  min-height: 100vh;
+  padding-bottom: 50px;
+  color: #c9d1d9;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
+    sans-serif;
+}
+
+.buybacks-page .buybacks-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Заголовки */
+.buybacks-page .page-header {
+  margin-bottom: 30px;
+  margin-top: 10px;
+}
+
+.buybacks-page .page-header h2 {
+  color: #e6edf3;
+  margin: 0;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Карточки статистики */
+.buybacks-page .stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.buybacks-page .stat-card {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  transition:
+    transform 0.2s,
+    border-color 0.2s;
+}
+
+.buybacks-page .stat-card:hover {
+  border-color: #58a6ff;
+  transform: translateY(-2px);
+}
+
+.buybacks-page .stat-icon-wrapper {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.buybacks-page .stat-icon-wrapper.green {
+  background: rgba(46, 160, 67, 0.15);
+  color: #2ea043;
+}
+.buybacks-page .stat-icon-wrapper.blue {
+  background: rgba(56, 139, 253, 0.15);
+  color: #58a6ff;
+}
+.buybacks-page .stat-icon-wrapper.orange {
+  background: rgba(210, 153, 34, 0.15);
+  color: #dbab09;
+}
+
+.buybacks-page .stat-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.buybacks-page .stat-label {
+  font-size: 13px;
+  color: #8b949e;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.buybacks-page .stat-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: #e6edf3;
+}
+
+.buybacks-page .stat-subtext {
+  font-size: 11px;
+  color: #8b949e;
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+.buybacks-page .text-green {
+  color: #2ea043;
+}
+.buybacks-page .text-blue {
+  color: #58a6ff;
+}
+
+/* Секции дашборда */
+.buybacks-page .dashboard-section {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+.buybacks-page .section-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #21262d;
+}
+
+.buybacks-page .section-header-row h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #e6edf3;
+}
+
+/* Свитчер времени */
+.buybacks-page .time-switcher {
+  display: flex;
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 2px;
+}
+
+.buybacks-page .time-switcher button {
+  background: transparent;
+  border: none;
+  color: #8b949e;
+  padding: 6px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.buybacks-page .time-switcher button:hover {
+  color: #c9d1d9;
+}
+
+.buybacks-page .time-switcher button.active {
+  background: #21262d;
+  color: #e6edf3;
+  font-weight: 600;
+}
+
+/* График */
+.buybacks-page .chart-wrapper {
+  padding: 10px 0;
+}
+
+.buybacks-page .custom-tooltip {
+  background: #0d1117;
+  border: 1px solid #30363d;
+  padding: 12px;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.buybacks-page .tooltip-date {
+  color: #8b949e;
+  margin: 0 0 8px 0;
+  font-size: 12px;
+}
+
+.buybacks-page .tooltip-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 4px;
+  font-size: 14px;
+}
+
+.buybacks-page .tooltip-val {
+  font-weight: 600;
+  color: #e6edf3;
+}
+
+/* Таблица */
+.buybacks-page .table-wrapper {
+  overflow-x: auto;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+}
+
+.buybacks-page .custom-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.buybacks-page .custom-table th {
+  text-align: left;
+  padding: 16px;
+  background-color: #161b22;
+  color: #8b949e;
+  font-weight: 600;
+  font-size: 13px;
+  border-bottom: 1px solid #30363d;
+  white-space: nowrap;
+}
+
+.buybacks-page .custom-table th.text-right {
+  text-align: right;
+}
+
+.buybacks-page .custom-table td {
+  padding: 16px;
+  border-bottom: 1px solid #21262d;
+  font-size: 14px;
+  color: #e6edf3;
+  vertical-align: middle;
+}
+
+.buybacks-page .custom-table tr:hover {
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+.buybacks-page .amount-cell {
+  color: #4caf50;
+  font-family: "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.buybacks-page .date-cell {
+  color: #e6edf3;
+  font-weight: 500;
+}
+.buybacks-page .text-right {
+  text-align: right;
+}
+.buybacks-page .dim-text {
+  color: #8b949e;
+  font-size: 13px;
+}
+.buybacks-page .loading-cell {
+  text-align: center;
+  padding: 40px;
+  color: #8b949e;
+}
