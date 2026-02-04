@@ -50,8 +50,11 @@ export const BuybacksStats = () => {
     // Копируем и реверсируем (чтобы шло слева направо по времени)
     let data = [...dailyStats].reverse();
 
-    if (timeRange === "30d") {
-      // Берем последние 30 элементов (они в конце массива после reverse)
+    // 👇 ДОБАВЛЕНА ЛОГИКА ДЛЯ 7 ДНЕЙ
+    if (timeRange === "7d") {
+      data = data.slice(-7);
+    } else if (timeRange === "30d") {
+      // Берем последние 30 элементов
       data = data.slice(-30);
     }
     return data;
@@ -96,16 +99,15 @@ export const BuybacksStats = () => {
             <h2>$LIT Buybacks Stats</h2>
           </div>
 
-          {/* --- КАРТОЧКИ (ОБНОВЛЕННЫЕ) --- */}
+          {/* --- КАРТОЧКИ --- */}
           <div className="stats-grid">
-            {/* Карточка 1: Баланс LIT (из API) */}
+            {/* Карточка 1: Баланс LIT */}
             <div className="stat-card">
               <div className="stat-icon-wrapper green">
                 <WalletOutlined />
               </div>
               <div className="stat-content">
                 <span className="stat-label">LIT Treasury Balance</span>
-                {/* Берем balances.lit.total или available - как тебе важнее */}
                 <span className="stat-value text-green">
                   {balances.lit?.total
                     ? balances.lit.total.toLocaleString(undefined, {
@@ -117,15 +119,13 @@ export const BuybacksStats = () => {
               </div>
             </div>
 
-            {/* Карточка 2: Баланс USDC (из API) */}
+            {/* Карточка 2: Баланс USDC */}
             <div className="stat-card">
               <div className="stat-icon-wrapper blue">
                 <DollarOutlined />
               </div>
               <div className="stat-content">
                 <span className="stat-label">USDC Balance (Free)</span>
-
-                {/* 1. Показываем СВОБОДНЫЙ объем (Total - Locked) */}
                 <span className="stat-value text-blue">
                   $
                   {balances.usdc?.available
@@ -135,8 +135,6 @@ export const BuybacksStats = () => {
                       })
                     : "0"}
                 </span>
-
-                {/* 2. Мелко показываем Locked (в ордерах) */}
                 <span className="stat-subtext">
                   (Locked): $
                   {balances.usdc?.locked
@@ -148,7 +146,7 @@ export const BuybacksStats = () => {
               </div>
             </div>
 
-            {/* Карточка 3: Средний откуп в день (Расчетный) */}
+            {/* Карточка 3: Средний откуп */}
             <div className="stat-card">
               <div className="stat-icon-wrapper orange">
                 <LineChartOutlined />
@@ -172,6 +170,14 @@ export const BuybacksStats = () => {
 
               {/* Свитчер времени */}
               <div className="time-switcher">
+                {/* 👇 ДОБАВЛЕНА КНОПКА 7 Days */}
+                <button
+                  className={timeRange === "7d" ? "active" : ""}
+                  onClick={() => setTimeRange("7d")}
+                >
+                  7 Days
+                </button>
+
                 <button
                   className={timeRange === "30d" ? "active" : ""}
                   onClick={() => setTimeRange("30d")}
@@ -226,9 +232,8 @@ export const BuybacksStats = () => {
             </div>
           </div>
 
-          {/* --- ТАБЛИЦА (Без изменений, только рендер) --- */}
+          {/* --- ТАБЛИЦА --- */}
           <div className="dashboard-section">
-            {/* ... код таблицы такой же как был ... */}
             <div className="table-wrapper">
               <table className="custom-table">
                 <thead>
