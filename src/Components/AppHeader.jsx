@@ -6,7 +6,8 @@ import {
   LineChartOutlined,
   GiftOutlined,
   AreaChartOutlined,
-  MenuOutlined, // Иконка бургера
+  MenuOutlined,
+  BuildOutlined, // Иконка бургера
 } from "@ant-design/icons";
 import "./AppHeader.css";
 
@@ -116,7 +117,7 @@ export const AppHeader = () => {
 
       {!isBuybackStats ? (
         <div style={navBtnStyle(false)} onClick={() => handleNav("/buybacks")}>
-          <GiftOutlined /> Buybacks
+          <BuildOutlined /> Buybacks
         </div>
       ) : (
         <div style={navBtnStyle(false)} onClick={() => handleNav("/")}>
