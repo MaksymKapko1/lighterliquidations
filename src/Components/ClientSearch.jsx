@@ -8,6 +8,7 @@ export const CoinSearch = () => {
   const navigate = useNavigate();
 
   const handleSelect = (value) => {
+    // Теперь value будет числовым ID (например, 1), а не тикером
     navigate(`/liquidations/${value}`);
   };
 
@@ -41,43 +42,55 @@ export const CoinSearch = () => {
         }}
         bordered={false}
         className="neon-search-select"
-        // Меняем иконку стрелки на синюю
         suffixIcon={<span style={{ color: "#58a6ff" }}>▼</span>}
       >
-        {Object.entries(MARKET_METADATA).map(([id, data]) => (
-          <Select.Option key={id} value={id} label={data.title || id}>
-            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-              {data.icon && (
-                <img
-                  src={data.icon}
-                  style={{ width: 16, height: 16, borderRadius: "50%" }}
-                  alt=""
-                />
-              )}
-              <span style={{ color: "#e6edf3", fontWeight: 600 }}>
-                {data.symbol || id}
-              </span>
-              <span
-                style={{
-                  color: "#8b949e",
-                  fontSize: "12px",
-                  marginLeft: "auto",
-                }}
+        {/* Изменил деструктуризацию: key - это "BTC", data - это объект с данными */}
+        {Object.entries(MARKET_METADATA).map(([key, data]) => {
+          // 👇 ПРЕДПОЛАГАЕМ, что ID лежит в data.id или data.marketId
+          // Если поля нет, код упадет или вернет undefined.
+          // Убедись, что в marketMetadata есть поле id!
+          const numericId = data.id || data.marketId;
+
+          return (
+            <Select.Option
+              key={key}
+              value={numericId} /* 👈 ВАЖНО: передаем числовой ID, а не ключ */
+              label={data.title || key}
+            >
+              <div
+                style={{ display: "flex", alignItems: "center", gap: "10px" }}
               >
-                {data.name}
-              </span>
-            </div>
-          </Select.Option>
-        ))}
+                {data.icon && (
+                  <img
+                    src={data.icon}
+                    style={{ width: 16, height: 16, borderRadius: "50%" }}
+                    alt=""
+                  />
+                )}
+                <span style={{ color: "#e6edf3", fontWeight: 600 }}>
+                  {data.symbol || key}
+                </span>
+                <span
+                  style={{
+                    color: "#8b949e",
+                    fontSize: "12px",
+                    marginLeft: "auto",
+                  }}
+                >
+                  {data.name}
+                </span>
+              </div>
+            </Select.Option>
+          );
+        })}
       </Select>
 
-      {/* 👇 НОВЫЕ НЕОНОВЫЕ СТИЛИ 👇 */}
+      {/* Стили без изменений */}
       <style>{`
-          /* 1. Основной стиль инпута (прозрачный, закругленный, с рамкой) */
           .neon-search-select .ant-select-selector {
             background-color: transparent !important; 
             border: 1px solid #58a6ff !important;
-            border-radius: 50px !important; /* Сильное закругление */
+            border-radius: 50px !important;
             height: 42px !important;
             display: flex !important;
             align-items: center !important;
@@ -86,13 +99,12 @@ export const CoinSearch = () => {
             transition: all 0.3s ease;
           }
 
-          /* 2. Цвет текста, который ты печатаешь */
           .neon-search-select input {
-            color: #ffffff !important;           /* Белый цвет */
+            color: #ffffff !important;
             -webkit-text-fill-color: #ffffff !important;
-            font-weight: 700 !important;         /* Жирный */
+            font-weight: 700 !important;
             font-size: 16px !important;
-            caret-color: #58a6ff !important;     /* Цвет мигающей палочки (курсора) */
+            caret-color: #58a6ff !important;
         }
             .neon-search-select .ant-select-selection-search-input {
             color: #ffffff !important;
@@ -100,26 +112,22 @@ export const CoinSearch = () => {
             font-weight: 700 !important;
         }
 
-          /* 3. Эффект при наведении и фокусе (ярче свечение) */
           .neon-search-select:hover .ant-select-selector,
           .neon-search-select.ant-select-focused .ant-select-selector {
               border-color: #58a6ff !important;
               box-shadow: 0 0 15px rgba(88, 166, 255, 0.6), inset 0 0 10px rgba(88, 166, 255, 0.2) !important;
           }
 
-          /* 4. Плейсхолдер */
           .neon-search-select .ant-select-selection-placeholder {
               padding-left: 10px;
           }
           
-          /* 5. Стилизация выбранного элемента в инпуте */
           .neon-search-select .ant-select-selection-item {
               color: white !important;
               font-weight: 600;
               padding-left: 10px !important;
           }
 
-          /* 6. Стилизация выпадающего списка */
           .ant-select-dropdown {
               border: 1px solid #58a6ff !important;
               box-shadow: 0 0 15px rgba(88, 166, 255, 0.4) !important;
