@@ -140,7 +140,7 @@ export const AppHeader = () => {
           >
             <CandleIcon />
           </div>
-          <span className="logo-text">Lighter Liquidations</span>
+          <span className="logo-text">LighterStatsX</span>
         </Link>
 
         {/* --- DESKTOP MENU (Скрыто на мобильных) --- */}
