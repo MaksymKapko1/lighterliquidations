@@ -1,5 +1,10 @@
 import React, { useState, useCallback, useMemo } from "react";
 import { AppHeader } from "../Components/AppHeader";
+import {
+  ArrowUpOutlined,
+  ArrowDownOutlined,
+  SwapOutlined,
+} from "@ant-design/icons";
 import { useSocketConnection } from "../hooks/useSocketConnection";
 import {
   BarChart,
@@ -25,8 +30,8 @@ export const BuybacksStats = () => {
   const [balances, setBalances] = useState({ lit: 0, usdc: 0 });
   const [loading, setLoading] = useState(true);
 
-  // Состояние для свитчера времени (30 дней или Всё время)
   const [timeRange, setTimeRange] = useState("30d");
+  const [stakingStats, setStakingStats] = useState(null);
 
   const handleMessage = useCallback((event) => {
     try {
@@ -38,6 +43,10 @@ export const BuybacksStats = () => {
         if (msg.data.balances) setBalances(msg.data.balances);
         setLoading(false);
       }
+
+      if (msg.type === "global_stats" && msg.data.staking_stats) {
+        setStakingStats(msg.data.staking_stats);
+      }
     } catch (e) {
       console.error("Error parsing WS message:", e);
     }
@@ -45,6 +54,28 @@ export const BuybacksStats = () => {
 
   useSocketConnection(SOCKET_URL, handleMessage);
 
+  const StakingPeriodCard = ({ title, data }) => {
+    if (!data) return null;
+    const isPositive = data.net_flow > 0;
+
+    return (
+      <div className="staking-sub-card">
+        <span className="staking-period-label">{title}</span>
+        <div className="staking-row">
+          <span className="text-dim">Staked:</span>
+          <span className="text-green">+{data.staked.toLocaleString()}</span>
+        </div>
+        <div className="staking-row">
+          <span className="text-dim">Unstaked:</span>
+          <span className="text-red">-{data.unstaked.toLocaleString()}</span>
+        </div>
+        <div className={`net-flow-badge ${isPositive ? "pos" : "neg"}`}>
+          {isPositive ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
+          {Math.abs(data.net_flow).toLocaleString()} LIT
+        </div>
+      </div>
+    );
+  };
   // 1. Фильтруем данные для графика в зависимости от свитчера
   const chartData = useMemo(() => {
     // Копируем и реверсируем (чтобы шло слева направо по времени)
@@ -95,9 +126,31 @@ export const BuybacksStats = () => {
       <AppHeader />
       <div className="buybacks-page">
         <div className="buybacks-container">
-          <div className="page-header">
-            <h2>$LIT Buybacks Stats</h2>
+          <div className="dashboard-section staking-section">
+            <div className="section-header-row">
+              <h3>
+                <SwapOutlined /> Staking Net Flow Insights
+              </h3>
+            </div>
+
+            <div className="staking-grid">
+              <StakingPeriodCard
+                title="Last 24 Hours"
+                data={stakingStats?.day}
+              />
+              <StakingPeriodCard
+                title="Last 3 Days"
+                data={stakingStats?.three_days}
+              />
+              <StakingPeriodCard
+                title="Last 7 Days"
+                data={stakingStats?.week}
+              />
+            </div>
           </div>
+          {/* <div className="page-header">
+            <h2>$LIT Buybacks Stats</h2>
+          </div> */}
 
           {/* --- КАРТОЧКИ --- */}
           <div className="stats-grid">
