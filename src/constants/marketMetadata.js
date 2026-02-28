@@ -629,7 +629,7 @@ export const MARKET_METADATA = {
   NVDA: {
     id: 110,
     sector: "Equities",
-    title: "MSFT",
+    title: "NVDA",
     icon: "https://s2.coinmarketcap.com/static/img/rwa/64x64/687899c0cbbf471de3366fae.png",
   },
   META: {
