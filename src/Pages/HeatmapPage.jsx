@@ -155,7 +155,7 @@ const HeatmapPage = () => {
             borderWidth: 1,
           },
         },
-      ],
+      ], //222
     };
   }, [history]);
 
