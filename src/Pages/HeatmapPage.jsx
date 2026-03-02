@@ -137,6 +137,11 @@ const HeatmapPage = () => {
           data: bidPoints,
           progressive: 1000,
           animation: false,
+          // ДОБАВЛЯЕМ ВОТ ЭТОТ БЛОК:
+          itemStyle: {
+            borderColor: "#0d1117", // Цвет фона сайта (создает прозрачный зазор)
+            borderWidth: 1, // Толщина черточки (можешь поставить 2, если хочешь зазоры шире)
+          },
         },
         {
           name: "Asks",
@@ -144,6 +149,11 @@ const HeatmapPage = () => {
           data: askPoints,
           progressive: 1000,
           animation: false,
+          // И ВОТ ЭТОТ БЛОК:
+          itemStyle: {
+            borderColor: "#0d1117", // Цвет фона
+            borderWidth: 1,
+          },
         },
       ],
     };
