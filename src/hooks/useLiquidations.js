@@ -1,11 +1,4 @@
-import {
-  useState,
-  useEffect,
-  useCallback,
-  useRef,
-  useReducer,
-  act,
-} from "react";
+import { useEffect, useCallback, useRef, useReducer } from "react";
 import { useSocketConnection } from "./useSocketConnection";
 
 const initialState = {
@@ -49,6 +42,8 @@ const initialState = {
   },
 
   chartData: [],
+
+  heatmapData: { bids: {}, asks: {} },
 };
 
 function liquidationReducer(state, action) {
@@ -97,6 +92,9 @@ function liquidationReducer(state, action) {
 
     case "chart_response":
       return { ...state, chartData: action.data };
+
+    case "lit_heatmap_update":
+      return { ...state, heatmapData: action.data };
     default:
       return state;
   }
@@ -118,7 +116,7 @@ export const useLiquidations = (selectedPeriod) => {
       JSON.stringify({
         type: "get_global_rekt_by_hours",
         hours: activePeriodRef.current || 24,
-      })
+      }),
     );
     ws.send(JSON.stringify({ type: "get_chart_data", hours: 24 }), []);
   }, []);
@@ -146,7 +144,7 @@ export const useLiquidations = (selectedPeriod) => {
   const { send, status } = useSocketConnection(
     WS_URL,
     handleMessage,
-    handleOpen
+    handleOpen,
   );
 
   useEffect(() => {
@@ -158,14 +156,14 @@ export const useLiquidations = (selectedPeriod) => {
       activePeriodRef.current = hours;
       send({ type: "get_global_rekt_by_hours", hours });
     },
-    [send]
+    [send],
   );
 
   const requestChartData = useCallback(
     (hours) => {
       send({ type: "get_chart_data", hours });
     },
-    [send]
+    [send],
   );
 
   return {

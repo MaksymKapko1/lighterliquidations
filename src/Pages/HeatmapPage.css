@@ -1,0 +1,155 @@
+.heatmap-container {
+  padding: 20px;
+  color: white;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: "Inter", sans-serif;
+}
+
+.heatmap-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.back-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.back-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.spacer {
+  width: 80px;
+}
+
+.orderbook-grid {
+  display: flex;
+  gap: 20px;
+  background: rgba(15, 15, 20, 0.6);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+@media (max-width: 768px) {
+  .orderbook-grid {
+    flex-direction: column;
+  }
+}
+
+.ob-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.ob-column h3 {
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  font-weight: 600;
+}
+
+.bids-column h3 {
+  color: #00ff88;
+}
+.asks-column h3 {
+  color: #ff4444;
+}
+
+.ob-header-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 10px;
+  color: #888;
+  font-size: 0.85rem;
+  margin-bottom: 10px;
+}
+
+.ob-data-list {
+  height: 60vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  padding-right: 5px;
+}
+
+/* Красивый скроллбар */
+.ob-data-list::-webkit-scrollbar {
+  width: 4px;
+}
+.ob-data-list::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.placeholder-text {
+  text-align: center;
+  color: #666;
+  margin-top: 20px;
+  font-style: italic;
+}
+
+.ob-row {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 10px;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 0.95rem;
+  margin-bottom: 2px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.ob-price,
+.ob-size {
+  z-index: 1; /* Чтобы текст был поверх заливки */
+}
+
+.ob-price {
+  font-weight: bold;
+}
+.ob-size {
+  color: #ccc;
+}
+
+.bid-row .ob-price {
+  color: #00ff88;
+}
+.ask-row .ob-price {
+  color: #ff4444;
+}
+
+/* Фоновая заливка (глубина стакана) */
+.ob-bg-fill {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  opacity: 0.15;
+  transition: width 0.3s ease-in-out;
+}
+
+.bid-row .ob-bg-fill {
+  background-color: #00ff88;
+}
+.ask-row .ob-bg-fill {
+  background-color: #ff4444;
+}
+
+.ob-row:hover {
+  background: rgba(255, 255, 255, 0.05);
+}

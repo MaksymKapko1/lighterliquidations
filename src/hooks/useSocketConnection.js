@@ -4,7 +4,6 @@ export const useSocketConnection = (url, onMessage, onOpen) => {
   const wsRef = useRef(null);
   const reconnectTimeoutRef = useRef(null);
   const [status, setStatus] = useState("Disconnected");
-  //   глянуть че это
 
   useEffect(() => {
     const connect = () => {

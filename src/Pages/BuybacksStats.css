@@ -374,16 +374,15 @@
     text-align: center;
   }
 
-  /* --- ГОРИЗОНТАЛЬНЫЙ СКРОЛЛ ТАБЛИЦЫ --- */
   .buybacks-page .table-wrapper {
     display: block;
     width: 100%;
-    overflow-x: auto; /* Включаем скролл ВЛЕВО-ВПРАВО для таблицы */
+    overflow-x: auto;
     -webkit-overflow-scrolling: touch;
   }
 
   .buybacks-page .custom-table {
-    min-width: 600px; /* Таблица шире экрана -> появляется скролл */
+    min-width: 600px;
   }
 
   .buybacks-page .custom-table th,
@@ -394,7 +393,6 @@
   }
 }
 
-/* Стейкинг анстейкинг */
 .staking-section {
   background: linear-gradient(145deg, #1a1d23 0%, #111418 100%);
   border: 1px solid #30363d;

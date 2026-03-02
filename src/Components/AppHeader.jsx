@@ -17,6 +17,7 @@ import {
   MenuOutlined,
   BuildOutlined,
   HeartOutlined,
+  BarChartOutlined,
 } from "@ant-design/icons";
 import "./AppHeader.css";
 
@@ -67,6 +68,7 @@ export const AppHeader = () => {
   const isAirdrop = location.pathname === "/airdrop";
   const isLitTrade = location.pathname === "/littrades";
   const isBuybackStats = location.pathname === "/buybacks";
+  const isHeatmap = location.pathname === "/heatmap";
 
   const handleNav = (path) => {
     navigate(path);
@@ -93,6 +95,15 @@ export const AppHeader = () => {
 
   const NavLinks = () => (
     <>
+      {!isHeatmap ? (
+        <div style={navBtnStyle(false)} onClick={() => handleNav("/heatmap")}>
+          <BarChartOutlined /> Heatmap
+        </div>
+      ) : (
+        <div style={navBtnStyle(false)} onClick={() => handleNav("/")}>
+          <FireOutlined /> Liquidations
+        </div>
+      )}
       {!isSpot ? (
         <div style={navBtnStyle(false)} onClick={() => handleNav("/spot")}>
           <LineChartOutlined /> Spot Market
