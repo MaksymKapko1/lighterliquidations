@@ -14,7 +14,7 @@ const HeatmapPage = () => {
   const [history, setHistory] = useState([]);
 
   useEffect(() => {
-    // Проверяем новую структуру данных (ждем perp и spot)ss
+    // Проверяем новую структуру данных (ждем perp и spot)
     if (!heatmapData || (!heatmapData.perp && !heatmapData.spot)) return;
 
     const now = new Date().toLocaleTimeString("en-US", { hour12: false });
@@ -224,7 +224,7 @@ const HeatmapPage = () => {
               transition: "all 0.3s",
             }}
           >
-            Futures
+            📊 Futures (PERP)
           </button>
           <button
             onClick={() => setMarket("spot")}
@@ -241,7 +241,7 @@ const HeatmapPage = () => {
               transition: "all 0.3s",
             }}
           >
-            Spot
+            🪙 Spot (SPOT)
           </button>
         </div>
 
