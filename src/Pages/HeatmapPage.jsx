@@ -111,8 +111,7 @@ const HeatmapPage = () => {
           const vol = params.data[2];
           const type =
             params.seriesName === "Bids" ? "🟢 Buy (Bid)" : "🔴 Sell (Ask)";
-          const marketTag =
-            market === "perp" ? "Фьючерсы (PERP)" : "Спот (SPOT)";
+          const marketTag = market === "perp" ? "(PERP)" : "(SPOT)";
           return `📊 ${marketTag}<br/>🕒 ${time}<br/>${type}<br/>💰 $${price}<br/>📦 ${vol.toFixed(0)} LIT`;
         },
       },
