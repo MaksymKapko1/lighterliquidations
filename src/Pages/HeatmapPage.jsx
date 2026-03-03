@@ -224,7 +224,7 @@ const HeatmapPage = () => {
               transition: "all 0.3s",
             }}
           >
-            📊 Futures (PERP)
+            Futures
           </button>
           <button
             onClick={() => setMarket("spot")}
@@ -241,7 +241,7 @@ const HeatmapPage = () => {
               transition: "all 0.3s",
             }}
           >
-            🪙 Spot (SPOT)
+            Spot
           </button>
         </div>
 
