@@ -12,7 +12,7 @@ import { HomePage } from "./Pages/HomePage";
 function App() {
   return (
     <>
-      <Snowfall
+      {/* <Snowfall
         style={{
           position: "fixed",
           width: "100vw",
@@ -22,7 +22,7 @@ function App() {
         }}
         snowflakeCount={60}
         radius={[0.3, 2.0]}
-      />
+      /> */}
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/liquidations/:coin" element={<CoinLiquidationPage />} />
